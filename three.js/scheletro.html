@@ -1,0 +1,62 @@
+<html>
+<head>
+	<title>ThreeJS</title>
+	<script src="js/three.js"></script>
+</head>
+<body>
+	<script>
+	//dichiaro le variabili d'ambiente che mi serviranno durante l'esecuzione
+	var camera, scene, renderer;
+
+	//eseguo l'init e l'animate, il primo verrà eseguito una sola volta, mentre il secondo
+	//richiamerà ricorsivamente se stesso, i nomi posso essere cambiati naturalmente, vedere sotto..
+	init();
+	animate();
+
+	function init(){
+		//creo la scena, ovvero il contenitore in cui inserirò tutti gli elementi che voglio visualizzare
+		scene = new THREE.Scene();
+		
+		//creo la telecamera di tipo prospettico, ovvero che rispetta la prospettiva
+		//i parametri sono spiegati sui docs di three.js, ma in linea di massima sono sempre questi
+		camera = new THREE.PerspectiveCamera ( 75, window.innerWidth/window.innerHeight, 1, 10000);
+		
+		//posiziono la telecamera in x=0 y=0 e z=5 e la inserisco all'interno della scena
+		camera.position.z = 5;
+		scene.add(camera);
+
+		/*
+
+		//..
+		//qui creo tutte le figure e le luci e le aggiugo alla scena come ho fatto per la telecamera
+		//..
+
+		*/
+
+		//creao l'oggetto renderer, che si occuperà di fare il rendering con webGl,
+		//e lo aggiungo al body della pagina web.
+		renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+	}
+
+	function animate(){
+		//dico alla libreria three.js di richiamare la funzione animate, ovvero mestesso 
+		//ad ogni nuovo frame, quindi qui inserirò tutte le modifiche che voglio vare alla mia
+		//scena per animarla
+		requestAnimationFrame(animate);
+		
+		/*
+
+		//..
+		//faccio tutte le animazioni o le modifiche alla mia scena
+		//..
+
+		*/
+
+		//faccio il renderig del nuovo frame modificato, dando per arcomento la scena e la telecamera
+		renderer.render(scene, camera);
+	}
+	</script>	
+</body>
+</html>
