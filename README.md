@@ -5,7 +5,7 @@ The aim of the project is to create a 3d ricostruction of the Tardis of Doctor W
 The tardis should be explorer by the user in firt person and he can interact with it.
 All the project is made with blender, three.js and webGl.
 
-###How to start
+###How to use
 make scure you have python installed and your computer and your browser support webGl
 for linux,  inside the folder three.js do the comand
 `./start.py`
