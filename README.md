@@ -12,8 +12,8 @@ for linux,  inside the folder three.js do the command
 or double click in windows
 
 ###Structure
-+ folder **blender** contein the surce of the 3d model
-+ folder **three.js** contein all three.js source of the project
++ folder **blender** contain the source of the 3D model
++ folder **three.js** contain all three.js source of the project
 
 
 **Contribute**
