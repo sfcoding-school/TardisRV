@@ -16,6 +16,5 @@ or double click in windows
 + folder **three.js** contein all three.js source of the project
 
 
-####Contribute
-+ lucarin91
-+ ulisse
+**Contribute**
+*lucarin91* *ulisse*
