@@ -184,7 +184,7 @@
         function init() {
 
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-            //camera.applyMatrix( new THREE.Matrix4().makeTranslation(400, 400, 400) );
+            //camera.position.z = 1000;
 
             scene = new THREE.Scene();
 
@@ -195,17 +195,6 @@
                 ray.ray.direction.set( 0, -1, 0 );
 
             
-            //floor
-               
-            var plane = new THREE.Mesh(
-                new THREE.PlaneGeometry(1000, 1000, 100, 100),
-                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
-                );
-            plane.rotation.x = -Math.PI / 2;
-            plane.position.y = 0;
-            plane.receiveShadow = true;
-            scene.add(plane);
-
 
             loader = new THREE.JSONLoader();
 
@@ -215,12 +204,9 @@
 
                 mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
                 //mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } ) );
-                mesh.scale.set( 50, 50, 50 );
+                mesh.scale.set( 2, 2, 2 );
                 mesh.position.y = 0;
                 mesh.position.x = 0;
-                mesh.position.z = 0;
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
                 scene.add( mesh );
 
         } );
@@ -241,19 +227,29 @@
                 scene.add( mesh );
 
         } );
+            
 
+            //test
+            //
+            //
+            //
+            //..
+            
 
-            var spotlight = new THREE.SpotLight(0xffffff);
-            spotlight.position.set(500,500,30);
-            //spotlight.shadowCameraVisible = true;
-            //spotlight.shadowDarkness = 0.25;
-            //spotlight.intensity = 10;
-            //spotlight.shadowCameraFov = 100;
-            // must enable shadow casting ability for the light
-            spotlight.castShadow = true;
-            scene.add(spotlight);
+            
+            //geometry = new THREE.BoxGeometry( 200, 200, 200 );
+            //material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
-            renderer = new THREE.WebGLRenderer({antialias: true});
+            //mesh = new THREE.Mesh( geometry, material );
+            //scene.add( mesh );
+           // var light = new THREE.PointLight( 0xFFFF00 );
+            
+            //light.position.set( 10, 0, 10 );
+            //scene.add( light );
+            var light = new THREE.AmbientLight( 0xffffff ); // soft white light
+            scene.add( light );
+
+            renderer = new THREE.WebGLRenderer();
             renderer.setSize( window.innerWidth, window.innerHeight );
             renderer.shadowMapEnabled = true;
             document.body.appendChild( renderer.domElement );
@@ -321,6 +317,10 @@
                 }
 
             }
+
+            //manopola.rotation.set(0.01,1,0.0);
+            manopola.rotation.x -= 0.01;
+            manopola.rotation.y += 0.02;
 
             
             controls.update( Date.now() - time );
