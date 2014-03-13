@@ -41,7 +41,12 @@
 		mesh2.position.x = +10;
 		//mesh1.overdraw = true;
 		//mesh2.overdraw = true;
+		mesh1.castShadow = true;
+		mesh2.castShadow = true;
 
+		mesh1.reciveShadow = true;
+		mesh2.reciveShadow = true;
+		
 		scene.add(mesh1);
 		scene.add(mesh2);
 
@@ -61,6 +66,7 @@
 
 		var directionalLight = new THREE.DirectionalLight(0xffffff);
       	directionalLight.position.set(3, 3, 3);
+      	directionalLight.castShadow = true;
       	scene.add(directionalLight);
 
 
