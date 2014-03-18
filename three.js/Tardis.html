@@ -6,7 +6,7 @@
 
       <!--moduli-->
     <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
-    <script src="http://127.0.0.1:8080/js/PointerLockControls.js"></script>
+    <script src="http://127.0.0.1:8080/js/PointerLockControlsByUlisse.js"></script>
     <script src="http://127.0.0.1:8080/js/blenderImport.js"></script>
     <script src="http://127.0.0.1:8080/js/Animation.js"></script>
 
@@ -97,7 +97,8 @@
 
         //ar t=0;
 
-        var anapolaAnimation;
+        var collidableMeshList;
+        var manapolaAnimation;
 
         initPointLock(blocker, instructions);
 
@@ -131,11 +132,21 @@
             scene.add(plane);
 
 
-            blenderImport("tardis.js", 50, [0,0,0], scene);
-            
-            
+            var importer = new blenderImporter(scene);
 
+            importer.import('tardis.js', 50, [0,0,0], [0,0,0]);
+
+            manopola;
+            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, mesh){
+                    console.log('salve');
+                    manopola = mesh;
+                    //geometry.applyMatrix( new THREE.Matrix4().makeRotationY(-51.788) );
+                    manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
+                    manapolaAnimation = new Animation(manopola);
+                    
+                });
             
+            /*
             var loader = new THREE.JSONLoader();
             loader.load("http://127.0.0.1:8080/modelli/manopola.js", function( geometry, materials ) {
                 geometry.applyMatrix( new THREE.Matrix4().makeRotationY(-51.788) );
@@ -155,7 +166,7 @@
                 scene.add(manopola);
                 //console.log(manopola.direction);
             }); 
-
+            */
 
             
 
