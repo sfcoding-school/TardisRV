@@ -1,4 +1,5 @@
 var muoviManopola = false;
+var up = true;
 var revert = false;
 var t = 0;
 
@@ -17,7 +18,7 @@ Animation.prototype.update = function(){
     if (muoviManopola){
     	if (revert){
     	    if (t<30){
-                this.object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), -0.05 );
+                this.object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.05 );
                 t+=1;
             }else{
                 t=0;
@@ -26,7 +27,7 @@ Animation.prototype.update = function(){
             }
         }else{
         	if (t<30){
-                this.object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.05 );
+                this.object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), -0.05 );
                 t+=1;
             }else{
                 t=0;
@@ -34,13 +35,21 @@ Animation.prototype.update = function(){
             }
         }
         console.log(t);
-        t+=1;
+        //t+=1;
 	}
 }
 
 Animation.prototype.startAni = function(){
 	console.log(muoviManopola);
 	muoviManopola = true;
+	if (up){
+		revert = false;
+		up = false;
+	}else{
+		revert = true;
+		up = true;
+	}
+
 }
 
 Animation.prototype.revertAni = function(){

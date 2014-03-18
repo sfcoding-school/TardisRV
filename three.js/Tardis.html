@@ -7,7 +7,7 @@
       <!--moduli-->
     <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
     <script src="http://127.0.0.1:8080/js/PointerLockControlsByUlisse.js"></script>
-    <script src="http://127.0.0.1:8080/js/blenderImport.js"></script>
+    <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
     <script src="http://127.0.0.1:8080/js/Animation.js"></script>
 
     <style>
@@ -109,6 +109,8 @@
 
         function init() {
 
+
+
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
             //camera.applyMatrix( new THREE.Matrix4().makeTranslation(400, 400, 400) );
 
@@ -131,44 +133,25 @@
             plane.receiveShadow = true;
             scene.add(plane);
 
-
+            
             var importer = new blenderImporter(scene);
 
-            importer.import('tardis.js', 50, [0,0,0], [0,0,0], function(geometry,mesh){
+            
+            importer.import('tardis.js', 50, [0,0,0], [0,0,0], function(geometry, object){
+                console.log('callBack');
                 controls.addMesh(mesh);
             });
-
             
-            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, mesh){
-                    console.log('salve');
-                    manopola = mesh;
+            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
+                    console.log('callBack');
+                    //console.log(mesh);
+                    manopola = object;
                     //geometry.applyMatrix( new THREE.Matrix4().makeRotationY(-51.788) );
                     manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
                     manapolaAnimation = new Animation(manopola);
+                    //manapolaAnimation.startAni();
                     
                 });
-            
-            /*
-            var loader = new THREE.JSONLoader();
-            loader.load("http://127.0.0.1:8080/modelli/manopola.js", function( geometry, materials ) {
-                geometry.applyMatrix( new THREE.Matrix4().makeRotationY(-51.788) );
-                //geometry.applyMatrix( new THREE.Matrix4().makeRotationX(87.128) );
-                //geometry.applyMatrix( new THREE.Matrix4().makeRotationZ(-42.159) );
-                manopola = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial(materials));
-                console.log(manopola);
-
-                manopola.scale.set( 50, 50, 50 );
-                manopola.position.x = -68;
-                manopola.position.y = 145;
-                manopola.position.z =  -68;
-                manopola.castShadow = true;
-                manopola.receiveShadow = true;
-                manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
-                manapolaAnimation = new Animation(manopola);
-                scene.add(manopola);
-                //console.log(manopola.direction);
-            }); 
-            */
 
             
 
@@ -189,6 +172,16 @@
 
             window.addEventListener( 'resize', onWindowResize, false );
 
+            var primaVolta = true;
+            window.addEventListener('click', function(e){ 
+                if (!primaVolta){
+                    manapolaAnimation.startAni();
+                    //alert('asdasd');
+                }else{
+                    primaVolta = false;
+                }
+            });
+        
         }
 
 
@@ -201,55 +194,18 @@
 
             }
 
-            
-        window.addEventListener("click",function(e){ 
-            alert('asdasd');
-            manapolaAnimation.startAni();
-            
-        });
-
-    
 
         function animate() {
-
-
             requestAnimationFrame( animate );
-            
-            
-            
-            /*
-            var axis = new THREE.Vector3(1,0,0);
-            rotObjectMatrix = new THREE.Matrix4();
-            rotObjectMatrix.makeRotationAxis(axis.normalize(), t);
-
-            // old code for Three.JS pre r54:
-            // object.matrix.multiplySelf(rotObjectMatrix);      // post-multiply
-            // new code for Three.JS r55+:
-            manopola.matrix.multiply(rotObjectMatrix);
-            */
-
-            //animazione Manopola
-            manapolaAnimation.update();
-            /*if (muoviManopola){
-                if (t<30){
-                    manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), -0.05 );
-                    t+=1;
-                }else{
                     
-                    t=0;
-                    muoviManopola=false;
-                }
-            }*/
-            //manopola.rotation.x = t;
-            //manopola.rotation.z = -Math.sin(t)*0.5;
-            //manopola.rotateOnAxis( new THREE.Vector3(0,-51.788,0), Math.sin(t)*0.5 );
-            //manopola.applyMatrix( new THREE.Matrix4().makeRotationY(1) );
-
-            controls.isOnObject( false );
+            manapolaAnimation.update();
+            
+           //controls.isOnObject( false );
 
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
 
+            /*
             var intersections = ray.intersectObjects( objects );
 
             if ( intersections.length > 0 ) {
@@ -263,7 +219,7 @@
                 }
 
             }
-
+            */
             
             controls.update( Date.now() - time );
 
