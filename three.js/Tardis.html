@@ -133,7 +133,45 @@
             plane.receiveShadow = true;
             scene.add(plane);
 
+
+            //cilindri energetici
+            var cylinder = new THREE.Mesh(
+                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                );
+            cylinder.receiveShadow = true;
+            cylinder.overdraw = true;
+            cylinder.position.set(-15,185,-15);
+            scene.add(cylinder);
             
+            var cylinder = new THREE.Mesh(
+                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                );
+            cylinder.receiveShadow = true;
+            cylinder.overdraw = true;
+            cylinder.position.set(15,185,-15);
+            scene.add(cylinder);
+            
+            var cylinder = new THREE.Mesh(
+                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                );
+            cylinder.receiveShadow = true;
+            cylinder.overdraw = true;
+            cylinder.position.set(15,185,15);
+            scene.add(cylinder);
+            
+            var cylinder = new THREE.Mesh(
+                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                );
+            cylinder.receiveShadow = true;
+            cylinder.overdraw = true;
+            cylinder.position.set(-15,185,15);
+            scene.add(cylinder);
+                        
+
             var importer = new blenderImporter(scene);
 
             
@@ -142,6 +180,7 @@
                 controls.addMesh(mesh);
             });
             
+
             importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
                     console.log('callBack');
                     //console.log(mesh);
