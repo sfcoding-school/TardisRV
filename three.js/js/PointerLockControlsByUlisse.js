@@ -1,4 +1,4 @@
-/**
+/*
  * @author mrdoob / http://mrdoob.com/
  * @Modified by Ulisse
  */
@@ -19,7 +19,7 @@ THREE.PointerLockControls = function ( camera ) {
     yawObject = new THREE.Mesh( cubeGeometry, wireMaterial );
     yawObject.add( pitchObject );
 
-	yawObject.position.set(0, 0, -100);
+	yawObject.position.set(0, 200, -250);
 
 	var moveForward = false;
 	var moveBackward = false;
@@ -32,6 +32,8 @@ THREE.PointerLockControls = function ( camera ) {
 	var velocity = new THREE.Vector3();
 
 	var PI_2 = Math.PI / 2;
+
+	
 
 	var onMouseMove = function ( event ) {
 
@@ -80,6 +82,10 @@ THREE.PointerLockControls = function ( camera ) {
 
 	};
 
+	var onMouseDown = function(event){
+
+	}
+
 	var onKeyUp = function ( event ) {
 
 		switch( event.keyCode ) {
@@ -127,10 +133,10 @@ THREE.PointerLockControls = function ( camera ) {
 
 	};
 
-	getDirection = function() {
+	this.getDirection = function() {
 
 		// assumes the camera itself is not rotated
-
+		/*
 		var direction = new THREE.Vector3( 0, 0, -1 );
 		var rotation = new THREE.Euler( 0, 0, 0, "YXZ" );
 
@@ -143,10 +149,16 @@ THREE.PointerLockControls = function ( camera ) {
 			return v;
 
 		}
+		*/
+		return pitchObject;
 
-	}();
+	};
 
 	var which = new Array(false, false, false, false);
+
+	//
+	var bool = true; var last;
+	var whichy = new Array(true, true, true, true);
 
 	this.update = function ( delta ) {
 
@@ -160,21 +172,21 @@ THREE.PointerLockControls = function ( camera ) {
 		velocity.z += ( - velocity.z ) * 0.08 * delta;
 		velocity.y -= 0.5 * delta;
 
-		if (moveForward){
+		if (moveForward && whichy[0]){
 			velocity.z -= cost * delta;
-			which[0] = true;
+			last = 0;
 		}
-		if (moveBackward){ 
+		if (moveBackward && whichy[1]){ 
 			velocity.z += cost * delta;
-			which[1] = true;
+			last = 1;
 		}
-		if (moveLeft){ 
+		if (moveLeft && whichy[2]){ 
 			velocity.x -= cost * delta;
-			which[2] = true;
+			last = 2;
 		}
-		if (moveRight){ 
+		if (moveRight && whichy[3]){ 
 			velocity.x += cost * delta;
-			which[3] = true;
+			last = 3;
 		}
 		if ( isOnObject === true ) {
 			velocity.y = Math.max( 0, velocity.y );
@@ -197,9 +209,9 @@ THREE.PointerLockControls = function ( camera ) {
         var caster = new THREE.Raycaster();
         // Get the obstacles array from our world       
         // For each ray
-            
+        var count = 0;
         for (i = 0; i < rays.length; i += 1) {
-
+        	
             caster.set(yawObject.position, rays[i]);
 
             // Test if we intersect with any obstacle mesh
@@ -207,24 +219,41 @@ THREE.PointerLockControls = function ( camera ) {
 
             // And disable that direction with 
             if (collisions.length > 0) {
-            	if(which[0]){
-            		if(collisions[0].distance - (cost * delta) < 125)
-						velocity.z += 1 * delta;
-              	}
-              	if(which[1]){
-            		if(collisions[0].distance + (cost * delta) < 125)
-						velocity.z -= 1 * delta;
-              	}
-              	if(which[2]){
-            		if(collisions[0].distance - (cost * delta) < 125)
-						velocity.x += 1 * delta;
-              	}
-              	if(which[3]){
-            		if(collisions[0].distance + (cost * delta) < 125)
-						velocity.x -= 1 * delta;
-              	}
-            }
+            	if((collisions[0].distance + (cost * delta ))< 200 || (collisions[0].distance -( cost * delta) )< 200 ){
+	            	if (bool) {
 
+	            		bool = false;
+
+	            		if(last == 0){
+	            			whichy[0] = false; whichy[1] = true; whichy[2] = false; whichy[3] = false;
+	            			velocity.z += cost * delta;
+	            		}
+	            		if(last == 1){
+	            			whichy[0] = true; whichy[1] = false; whichy[2] = false; whichy[3] = false;
+	            			velocity.z -= cost * delta;
+	            		}
+	            		if(last == 2){
+	            			whichy[0] = false; whichy[1] = false; whichy[2] = false; whichy[3] = true;
+	            			velocity.z += cost * delta;
+	            		}
+	            		if(last == 3){
+	            			whichy[0] = false; whichy[1] = false; whichy[2] = true; whichy[3] = false;
+	            			velocity.z -= cost * delta;
+	            		}
+
+	            	}
+	           	}             
+            } else {
+            	count++;
+            }
+            
+        }
+
+        //console.log(count);
+
+        if(count == rays.length-1){
+        	bool = true;
+        	whichy[0] = true; whichy[1] = true; whichy[2] = true; whichy[3] = true;
         }
 
 		yawObject.translateX( velocity.x );
@@ -236,15 +265,109 @@ THREE.PointerLockControls = function ( camera ) {
 			yawObject.position.y = 220;
 			canJump = true;
 		}
-
-		 which[0] = false; which[1] = false; which[2] = false; which[3] = false; //reset array which
+		
 	};
+
+
 
 	this.addMesh = function(mesha){
 		collidableMeshList.push(mesha);
 	};
-
 }; 
+
+
+/*** correct code ***/
+	// this.update = function ( delta ) {
+
+	// 	if ( scope.enabled === false ) return;
+
+	// 	delta *= 0.1;
+
+	// 	var cost = 0.5;
+		
+	// 	velocity.x += ( - velocity.x ) * 0.08 * delta;
+	// 	velocity.z += ( - velocity.z ) * 0.08 * delta;
+	// 	velocity.y -= 0.5 * delta;
+
+	// 	if (moveForward){
+	// 		velocity.z -= cost * delta;
+	// 		which[0] = true;
+	// 	}
+	// 	if (moveBackward){ 
+	// 		velocity.z += cost * delta;
+	// 		which[1] = true;
+	// 	}
+	// 	if (moveLeft){ 
+	// 		velocity.x -= cost * delta;
+	// 		which[2] = true;
+	// 	}
+	// 	if (moveRight){ 
+	// 		velocity.x += cost * delta;
+	// 		which[3] = true;
+	// 	}
+	// 	if ( isOnObject === true ) {
+	// 		velocity.y = Math.max( 0, velocity.y );
+	// 	}
+
+	// 	/*** check collision ***/
+
+	// 	var rays = [
+ //                new THREE.Vector3(0, 0, 1),
+ //                new THREE.Vector3(1, 0, 1),
+ //                new THREE.Vector3(1, 0, 0),
+ //                new THREE.Vector3(1, 0, -1),
+ //                new THREE.Vector3(0, 0, -1),
+ //                new THREE.Vector3(-1, 0, -1),
+ //                new THREE.Vector3(-1, 0, 0),
+ //                new THREE.Vector3(-1, 0, 1)
+ //        	]; 
+ //        var collisions, i;
+           
+ //        var caster = new THREE.Raycaster();
+ //        // Get the obstacles array from our world       
+ //        // For each ray
+            
+ //        for (i = 0; i < rays.length; i += 1) {
+
+ //            caster.set(yawObject.position, rays[i]);
+
+ //            // Test if we intersect with any obstacle mesh
+ //            collisions = caster.intersectObjects(collidableMeshList);
+
+ //            // And disable that direction with 
+ //            if (collisions.length > 0) {
+            	
+ //            	if(which[0]){
+ //            		if(collisions[0].distance - (cost * delta) < 150)
+	// 					velocity.z += 1 * delta;
+ //              	}
+ //              	if(which[1]){
+ //            		if(collisions[0].distance + (cost * delta) < 150)
+	// 					velocity.z -= 1 * delta;
+ //              	}
+ //              	if(which[2]){
+ //            		if(collisions[0].distance - (cost * delta) < 150)
+	// 					velocity.x += 1 * delta;
+ //              	}
+ //              	if(which[3]){
+ //            		if(collisions[0].distance + (cost * delta) < 150)
+	// 					velocity.x -= 1 * delta;
+ //              	}
+             
+ //            }
+ //        }
+
+	// 	yawObject.translateX( velocity.x );
+	// 	yawObject.translateY( velocity.y ); 
+	// 	yawObject.translateZ( velocity.z );
+
+	// 	if ( yawObject.position.y < 220 ) {
+	// 		velocity.y = 0;
+	// 		yawObject.position.y = 220;
+	// 		canJump = true;
+	// 	}
+	// 	which[0] = false; which[1] = false; which[2] = false; which[3] = false; //reset array which
+	// };
 
 /*** check which ray 
         

@@ -97,6 +97,42 @@
 				renderer.domElement.addEventListener( 'mousedown', onMouseDown );
 			}
 
+			//funzione evento clicl
+            function onMouseDown( event_info ) {
+                console.log("cio");
+                /*
+                var vector = new THREE.Vector3( puntatore.position.x, puntatore.position.y, 1 );
+                projector.unprojectVector( vector, camera );
+
+                raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+
+                var intersects = raycaster.intersectObjects( scene.children );
+
+                if ( intersects.length > 0 ) {
+
+                    if ( INTERSECTED != intersects[ 0 ].object ) {
+
+                        if ( INTERSECTED ) INTERSECTED.material.color.setRGB (1, 0, 0);
+
+                        INTERSECTED = intersects[ 0 ].object;
+                        INTERSECTED.material.color.setRGB (1, 0, 0);
+
+                       
+                        var distance = intersects[0].distance;
+                        console.log(distance); 
+
+                    }
+
+                } else {
+
+                    if ( INTERSECTED ) INTERSECTED.material.color.setRGB( 1, 1, 1 );
+
+                    INTERSECTED = null;
+
+                }
+                */
+            }
+
 			function onWindowResize() {
 
 				camera.aspect = window.innerWidth / window.innerHeight;
