@@ -5,6 +5,7 @@
 
 THREE.PointerLockControls = function ( camera ) {
 
+	var collidableMeshList = [];
 	var scope = this;
 	var collBool = false;
 	camera.rotation.set( 0, 0, 0 );
@@ -14,7 +15,7 @@ THREE.PointerLockControls = function ( camera ) {
 
 	var yawObject;
 	var cubeGeometry = new THREE.CubeGeometry(30,30,30,1,1,1);
-	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe:true } );
+	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe:false } );
     yawObject = new THREE.Mesh( cubeGeometry, wireMaterial );
     yawObject.add( pitchObject );
 
@@ -239,6 +240,9 @@ THREE.PointerLockControls = function ( camera ) {
 		 which[0] = false; which[1] = false; which[2] = false; which[3] = false; //reset array which
 	};
 
+	this.addMesh = function(mesha){
+		collidableMeshList.push(mesha);
+	};
 
 }; 
 

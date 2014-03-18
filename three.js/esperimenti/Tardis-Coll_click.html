@@ -3,6 +3,7 @@
 <head>
     <script src="http://127.0.0.1:8080/js/three.js"></script>
     <script src="http://127.0.0.1:8080/js/PointerLockControlsByUlisse.js"></script>
+    <script src='http://127.0.0.1:8080/js/threex.domevents.js'></script>
 
     <style>
             html, body {
@@ -70,24 +71,16 @@
     <script>
 
         var MovingCube;
-
         var camera, scene, renderer;
         var geometry, material, mesh;
-
         var manopola;
-
         var point;
-
-            var controls,time = Date.now();
-
-            var objects = [];
-
-            var ray;
-
-            var blocker = document.getElementById( 'blocker' );
-            var instructions = document.getElementById( 'instructions' );
-
-            // http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+        var controls,time = Date.now();
+        var objects = [];
+        var ray;
+        var blocker = document.getElementById( 'blocker' );
+        var instructions = document.getElementById( 'instructions' );
+        var domEvents;
 
         var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
@@ -180,14 +173,27 @@
 
         function init() {
 
-            //camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-            //camera.applyMatrix( new THREE.Matrix4().makeTranslation(400, 400, 400) );
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.shadowMapEnabled = true;
+            document.body.appendChild( renderer.domElement );
 
             var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
             var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
             camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 
             scene = new THREE.Scene();
+
+            //definisco il puntatore
+            var puntatore = new THREE.BoxGeometry(0.1,0.1,0.1);
+            var material = new THREE.MeshBasicMaterial( { color: "blue" });
+            puntatore.applyMatrix( new THREE.Matrix4().makeTranslation(0, 0, -5) );
+            puntatore = new THREE.Mesh(puntatore, material);
+            camera.add(puntatore);
+            /////
+
+            domEvents = new THREEx.DomEvents(puntatore, renderer.domElement);
+            ////////////
 
             controls = new THREE.PointerLockControls( camera );
             scene.add( controls.getObject() );
@@ -225,20 +231,23 @@
                 scene.add( mesh );
 
 
-        } );
+            } );
             
+            domEvents.bind(mesh, 'click', function(event){
+                console.log('you clicked on mesh');
+            }, false);
             
             var spotlight = new THREE.SpotLight(0xffffff);
             spotlight.position.set(500,500,30);
             spotlight.castShadow = true;
             scene.add(spotlight);
 
-            renderer = new THREE.WebGLRenderer({antialias: true});
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            renderer.shadowMapEnabled = true;
-            document.body.appendChild( renderer.domElement );
+            
+            
 
             window.addEventListener( 'resize', onWindowResize, false );
+
+           
 
         }
 
@@ -249,17 +258,7 @@
 
                 renderer.setSize( window.innerWidth, window.innerHeight );
 
-            }
-
-            window.addEventListener("click",function(e){ 
-            if(controls.enabled==true){
-                
-                var point = new THREE.Mesh(new THREE.BoxGeometry( 5, 5, 5 ), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ));
-                point.position.x=10;
-                point.position.y=10;
-                scene.add(point);
-            }
-        });
+        }
 
         function animate() {
 
@@ -278,6 +277,8 @@
             time = Date.now();
 
         }
+
+    
 
     </script>
 </body>
