@@ -134,9 +134,11 @@
 
             var importer = new blenderImporter(scene);
 
-            importer.import('tardis.js', 50, [0,0,0], [0,0,0]);
+            importer.import('tardis.js', 50, [0,0,0], [0,0,0], function(geometry,mesh){
+                controls.addMesh(mesh);
+            });
 
-            manopola;
+            
             importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, mesh){
                     console.log('salve');
                     manopola = mesh;

@@ -1,14 +1,14 @@
 var loader;
-var scene1;
+var scene;
 //costruttorevar 
 function blenderImporter(scene){
-	scene1 = scene;
+	this.scene = scene;
 	loader = new THREE.JSONLoader();
 }
 
 blenderImporter.prototype.import = function(fileName, scale, positionVector, rotationVector, callBack){
 	//console.log(scale);
-	//console.log(positionVector);
+	console.log('importer');
 	//var loader = new THREE.JSONLoader();
 	var object;
 	loader.load("http://127.0.0.1:8080/modelli/"+fileName, function( geometry, materials ) {
@@ -22,7 +22,8 @@ blenderImporter.prototype.import = function(fileName, scale, positionVector, rot
         object.position.z = positionVector[2];
         object.castShadow = true;
         object.receiveShadow = true;
+        console.log(object);
         callBack(geometry, object);
-        scene1.add(object);
+        scene.add(object);
     }); 
 }
