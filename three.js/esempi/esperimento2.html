@@ -124,6 +124,10 @@
 						INTERSECTED = intersects[ 0 ].object;
 						INTERSECTED.material.color.setRGB (1, 0, 0);
 
+						/*distanza dall'oggetto .. sembra giusta x noi intorno a 20 */
+						var distance = intersects[0].distance;
+						console.log(distance); 
+
 					}
 
 				} else {
