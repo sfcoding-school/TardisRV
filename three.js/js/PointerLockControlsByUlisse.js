@@ -19,7 +19,7 @@ THREE.PointerLockControls = function ( camera ) {
     yawObject = new THREE.Mesh( cubeGeometry, wireMaterial );
     yawObject.add( pitchObject );
 
-	yawObject.position.set(0, 0, -100);
+	yawObject.position.set(0, 200, -250);
 
 	var moveForward = false;
 	var moveBackward = false;
@@ -79,6 +79,10 @@ THREE.PointerLockControls = function ( camera ) {
 		}
 
 	};
+
+	var onMouseDown = function(event){
+
+	}
 
 	var onKeyUp = function ( event ) {
 
@@ -208,19 +212,19 @@ THREE.PointerLockControls = function ( camera ) {
             // And disable that direction with 
             if (collisions.length > 0) {
             	if(which[0]){
-            		if(collisions[0].distance - (cost * delta) < 125)
+            		if(collisions[0].distance - (cost * delta) < 150)
 						velocity.z += 1 * delta;
               	}
               	if(which[1]){
-            		if(collisions[0].distance + (cost * delta) < 125)
+            		if(collisions[0].distance + (cost * delta) < 150)
 						velocity.z -= 1 * delta;
               	}
               	if(which[2]){
-            		if(collisions[0].distance - (cost * delta) < 125)
+            		if(collisions[0].distance - (cost * delta) < 150)
 						velocity.x += 1 * delta;
               	}
               	if(which[3]){
-            		if(collisions[0].distance + (cost * delta) < 125)
+            		if(collisions[0].distance + (cost * delta) < 150)
 						velocity.x -= 1 * delta;
               	}
             }
@@ -243,6 +247,24 @@ THREE.PointerLockControls = function ( camera ) {
 	this.addMesh = function(mesha){
 		collidableMeshList.push(mesha);
 	};
+
+	this.onDocumentMouseDown = function( event ) {
+            console.log("ciao");
+            var projector = new THREE.Projector();
+            var raycaster = new THREE.Raycaster();
+            var vector = new THREE.Vector3( puntatore.position.x, puntatore.position.y, 1 );
+                projector.unprojectVector( vector, camera );
+
+                raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+
+                var intersects = raycaster.intersectObjects( collidableMeshList );
+
+                if ( intersects.length > 0 ) {
+
+                  console.log("ciao2");
+
+                }
+            }
 
 }; 
 
