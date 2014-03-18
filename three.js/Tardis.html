@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--librerie-->
     <script src="http://127.0.0.1:8080/js/three.js"></script>
+
+      <!--moduli-->
+    <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
     <script src="http://127.0.0.1:8080/js/PointerLockControls.js"></script>
+    <script src="http://127.0.0.1:8080/js/blenderImport.js"></script>
+    <script src="http://127.0.0.1:8080/js/Animation.js"></script>
 
     <style>
             html, body {
@@ -60,7 +66,6 @@
 </head>
 <body>
 <div id="blocker">
-
             <div id="instructions">
                 <span style="font-size:40px">Click to play</span>
                 <br/>
@@ -68,6 +73,8 @@
             </div>
 
         </div>
+      
+
     <script>
 
         var camera, scene, renderer;
@@ -77,109 +84,27 @@
 
         var point;
 
-            var controls,time = Date.now();
+        var controls ,time = Date.now();
 
-            var objects = [];
+        var objects = [];
 
-            var ray;
+        var ray;
 
-            var blocker = document.getElementById( 'blocker' );
-            var instructions = document.getElementById( 'instructions' );
+        var blocker = document.getElementById( 'blocker' );
+        var instructions = document.getElementById( 'instructions' );
 
-            // http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+        //var muoviManopola=false;
 
-        var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+        //ar t=0;
 
-            if ( havePointerLock ) {
+        var anapolaAnimation;
 
-                var element = document.body;
-
-                var pointerlockchange = function ( event ) {
-
-                    if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-
-                        controls.enabled = true;
-
-                        blocker.style.display = 'none';
-
-                    } else {
-
-                        controls.enabled = false;
-
-                        blocker.style.display = '-webkit-box';
-                        blocker.style.display = '-moz-box';
-                        blocker.style.display = 'box';
-
-                        instructions.style.display = '';
-
-                    }
-
-                }
-
-                var pointerlockerror = function ( event ) {
-
-                    instructions.style.display = '';
-
-                }
-
-                // Hook pointer lock state change events
-                document.addEventListener( 'pointerlockchange', pointerlockchange, false );
-                document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
-                document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
-
-                document.addEventListener( 'pointerlockerror', pointerlockerror, false );
-                document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
-                document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
-
-                instructions.addEventListener( 'click', function ( event ) {
-
-                    instructions.style.display = 'none';
-
-                    // Ask the browser to lock the pointer
-                    element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-
-                    if ( /Firefox/i.test( navigator.userAgent ) ) {
-
-                        var fullscreenchange = function ( event ) {
-
-                            if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
-
-                                document.removeEventListener( 'fullscreenchange', fullscreenchange );
-                                document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
-
-                                element.requestPointerLock();
-                            }
-
-                        }
-
-                        document.addEventListener( 'fullscreenchange', fullscreenchange, false );
-                        document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
-
-                        element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
-
-                        element.requestFullscreen();
-
-                    } else {
-
-                        element.requestPointerLock();
-
-                    }
-
-                }, false );
-
-            } else {
-
-                instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
-
-            }
-
-
+        initPointLock(blocker, instructions);
 
         init();
 
-        
-
         animate();
+
 
         function init() {
 
@@ -196,7 +121,6 @@
 
             
             //floor
-               
             var plane = new THREE.Mesh(
                 new THREE.PlaneGeometry(1000, 1000, 100, 100),
                 new THREE.MeshLambertMaterial({color: 0xFFFFFF})
@@ -207,47 +131,39 @@
             scene.add(plane);
 
 
-            loader = new THREE.JSONLoader();
-
-            loader.load( "modelli/tardis.js", function( geometry, materials ) {
-
-                    //var geometry = new THREE.CubeGeometry(5,10,5);
-
-                mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
-                //mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } ) );
-                mesh.scale.set( 50, 50, 50 );
-                mesh.position.y = 0;
-                mesh.position.x = 0;
-                mesh.position.z = 0;
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-                scene.add( mesh );
-
-        } );
+            blenderImport("tardis.js", 50, [0,0,0], scene);
+            
+            
 
             
-            loader.load( "modelli/manopola.js", function( geometry, materials ) {
+            var loader = new THREE.JSONLoader();
+            loader.load("http://127.0.0.1:8080/modelli/manopola.js", function( geometry, materials ) {
+                geometry.applyMatrix( new THREE.Matrix4().makeRotationY(-51.788) );
+                //geometry.applyMatrix( new THREE.Matrix4().makeRotationX(87.128) );
+                //geometry.applyMatrix( new THREE.Matrix4().makeRotationZ(-42.159) );
+                manopola = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial(materials));
+                console.log(manopola);
 
-                    //var geometry = new THREE.CubeGeometry(5,10,5);
-                //geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 10, 0 ) );
-                mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
-                //mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } ) );
-                
-                manopola = mesh;
+                manopola.scale.set( 50, 50, 50 );
+                manopola.position.x = -68;
+                manopola.position.y = 145;
+                manopola.position.z =  -68;
+                manopola.castShadow = true;
+                manopola.receiveShadow = true;
+                manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
+                manapolaAnimation = new Animation(manopola);
+                scene.add(manopola);
+                //console.log(manopola.direction);
+            }); 
 
-                mesh.scale.set( 2, 2, 2 );
-                mesh.position.y = 0;
-                mesh.position.x = 0;
-                scene.add( mesh );
 
-        } );
-
+            
 
             var spotlight = new THREE.SpotLight(0xffffff);
-            spotlight.position.set(500,500,30);
-            //spotlight.shadowCameraVisible = true;
+            spotlight.position.set(0,600,0);
+            spotlight.shadowCameraVisible = true;
             //spotlight.shadowDarkness = 0.25;
-            //spotlight.intensity = 10;
+            spotlight.intensity = 3;
             //spotlight.shadowCameraFov = 100;
             // must enable shadow casting ability for the light
             spotlight.castShadow = true;
@@ -262,21 +178,6 @@
 
         }
 
-        /*
-        function animate() {
-
-            // note: three.js includes requestAnimationFrame shim
-            requestAnimationFrame( animate );
-
-            //mesh.rotation.x += 0.01;
-            //mesh.rotation.y += 0.02;
-
-            renderer.render( scene, camera );
-
-        }
-        */
-
-
 
         function onWindowResize() {
 
@@ -287,21 +188,49 @@
 
             }
 
-            window.addEventListener("click",function(e){ 
-            if(controls.enabled==true){
-                alert("ciao!");
-                var point = new THREE.Mesh(new THREE.BoxGeometry( 5, 5, 5 ), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ));
-                point.position.x=10;
-                point.position.y=10;
-                scene.add(point);
-            }
+            
+        window.addEventListener("click",function(e){ 
+            alert('asdasd');
+            manapolaAnimation.startAni();
+            
         });
+
+    
 
         function animate() {
 
-            requestAnimationFrame( animate );
 
-            //
+            requestAnimationFrame( animate );
+            
+            
+            
+            /*
+            var axis = new THREE.Vector3(1,0,0);
+            rotObjectMatrix = new THREE.Matrix4();
+            rotObjectMatrix.makeRotationAxis(axis.normalize(), t);
+
+            // old code for Three.JS pre r54:
+            // object.matrix.multiplySelf(rotObjectMatrix);      // post-multiply
+            // new code for Three.JS r55+:
+            manopola.matrix.multiply(rotObjectMatrix);
+            */
+
+            //animazione Manopola
+            manapolaAnimation.update();
+            /*if (muoviManopola){
+                if (t<30){
+                    manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), -0.05 );
+                    t+=1;
+                }else{
+                    
+                    t=0;
+                    muoviManopola=false;
+                }
+            }*/
+            //manopola.rotation.x = t;
+            //manopola.rotation.z = -Math.sin(t)*0.5;
+            //manopola.rotateOnAxis( new THREE.Vector3(0,-51.788,0), Math.sin(t)*0.5 );
+            //manopola.applyMatrix( new THREE.Matrix4().makeRotationY(1) );
 
             controls.isOnObject( false );
 
@@ -328,9 +257,7 @@
             renderer.render( scene, camera );
 
             time = Date.now();
-
         }
-
     </script>
 </body>
 </html>
