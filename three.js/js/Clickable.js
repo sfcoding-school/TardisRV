@@ -28,7 +28,6 @@ Clickable.prototype.onDocumentMouseDown = function( event ) {
 	    var manopola_uuid = clickMesh[0].uuid;
 
 	    if (intersects[0].object.uuid == manopola_uuid && intersects[0].distance < 200) {
-	    	console.log("u did it");
 	    	manapolaAnimation.startAni();
 	    }
 	}

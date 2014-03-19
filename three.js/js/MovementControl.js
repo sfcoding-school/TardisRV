@@ -1,14 +1,20 @@
 /*
- * @author mrdoob / http://mrdoob.com/
- * @Modified by Ulisse
+ * @author by Ulisse
+ * This class is based on PointerLockControl(by mrdoob / http://mrdoob.com/)
  */
 
 THREE.PointerLockControls = function ( camera ) {
 
+	/** VARIABLES **/
 	var collidableMeshList = [];
 	var scope = this;
-	var collBool = false;
 	camera.rotation.set( 0, 0, 0 );
+
+	var puntatore = new THREE.BoxGeometry(0.1,0.1,0.1);
+    var material = new THREE.MeshBasicMaterial( { color: "blue" });
+    puntatore.applyMatrix( new THREE.Matrix4().makeTranslation(0, 0, -5) );
+    puntatore = new THREE.Mesh(puntatore, material);
+    camera.add(puntatore);
 
 	var pitchObject = new THREE.Object3D();
 	pitchObject.add( camera );
@@ -18,23 +24,21 @@ THREE.PointerLockControls = function ( camera ) {
 	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe:false } );
     yawObject = new THREE.Mesh( cubeGeometry, wireMaterial );
     yawObject.add( pitchObject );
-
 	yawObject.position.set(0, 200, -250);
 
 	var moveForward = false;
 	var moveBackward = false;
 	var moveLeft = false;
 	var moveRight = false;
-
 	var isOnObject = false;
 	var canJump = false;
-
 	var velocity = new THREE.Vector3();
-
 	var PI_2 = Math.PI / 2;
+	var bool = true; 
+	var last;
+	var whichy = new Array(true, true, true, true);
 
-	
-
+	/** Functions **/
 	var onMouseMove = function ( event ) {
 
 		if ( scope.enabled === false ) return;
@@ -44,7 +48,6 @@ THREE.PointerLockControls = function ( camera ) {
 
 		yawObject.rotation.y -= movementX * 0.002;
 		pitchObject.rotation.x -= movementY * 0.002;
-
 		pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
 	};
@@ -81,10 +84,6 @@ THREE.PointerLockControls = function ( camera ) {
 		}
 
 	};
-
-	var onMouseDown = function(event){
-
-	}
 
 	var onKeyUp = function ( event ) {
 
@@ -134,38 +133,16 @@ THREE.PointerLockControls = function ( camera ) {
 	};
 
 	this.getDirection = function() {
-
-		// assumes the camera itself is not rotated
-		/*
-		var direction = new THREE.Vector3( 0, 0, -1 );
-		var rotation = new THREE.Euler( 0, 0, 0, "YXZ" );
-
-		return function( v ) {
-
-			rotation.set( pitchObject.rotation.x, yawObject.rotation.y, 0 );
-
-			v.copy( direction ).applyEuler( rotation );
-
-			return v;
-
-		}
-		*/
+		/* it is useful for class Clickable */
 		return pitchObject;
 
 	};
-
-	var which = new Array(false, false, false, false);
-
-	//
-	var bool = true; var last;
-	var whichy = new Array(true, true, true, true);
 
 	this.update = function ( delta ) {
 
 		if ( scope.enabled === false ) return;
 
 		delta *= 0.1;
-
 		var cost = 0.5;
 		
 		velocity.x += ( - velocity.x ) * 0.08 * delta;
@@ -193,7 +170,6 @@ THREE.PointerLockControls = function ( camera ) {
 		}
 
 		/*** check collision ***/
-
 		var rays = [
                 new THREE.Vector3(0, 0, 1),
                 new THREE.Vector3(1, 0, 1),
@@ -204,12 +180,10 @@ THREE.PointerLockControls = function ( camera ) {
                 new THREE.Vector3(-1, 0, 0),
                 new THREE.Vector3(-1, 0, 1)
         	]; 
-        var collisions, i;
-           
+        var collisions, i;         
         var caster = new THREE.Raycaster();
-        // Get the obstacles array from our world       
-        // For each ray
         var count = 0;
+
         for (i = 0; i < rays.length; i += 1) {
         	
             caster.set(yawObject.position, rays[i]);
@@ -240,16 +214,12 @@ THREE.PointerLockControls = function ( camera ) {
 	            			whichy[0] = false; whichy[1] = false; whichy[2] = true; whichy[3] = false;
 	            			velocity.z -= cost * delta;
 	            		}
-
 	            	}
 	           	}             
             } else {
             	count++;
             }
-            
         }
-
-        //console.log(count);
 
         if(count == rays.length-1){
         	bool = true;
@@ -264,11 +234,8 @@ THREE.PointerLockControls = function ( camera ) {
 			velocity.y = 0;
 			yawObject.position.y = 220;
 			canJump = true;
-		}
-		
+		}	
 	};
-
-
 
 	this.addMesh = function(mesha){
 		collidableMeshList.push(mesha);
@@ -276,7 +243,8 @@ THREE.PointerLockControls = function ( camera ) {
 }; 
 
 
-/*** correct code ***/
+/*** old correct code ***/
+	//var which = new Array(false, false, false, false);
 	// this.update = function ( delta ) {
 
 	// 	if ( scope.enabled === false ) return;
