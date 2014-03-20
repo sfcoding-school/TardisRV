@@ -39,6 +39,11 @@ THREE.PointerLockControls = function ( camera ) {
 	var last;
 	var whichy = new Array(true, true, true, true);
 
+
+	//luca
+	var passo = 0;
+
+
 	/** Functions **/
 	var onMouseMove = function ( event ) {
 
@@ -149,25 +154,66 @@ THREE.PointerLockControls = function ( camera ) {
 		velocity.x += ( - velocity.x ) * 0.08 * delta;
 		velocity.z += ( - velocity.z ) * 0.08 * delta;
 		velocity.y -= 0.5 * delta;
+		
+		var p = Math.sin(passo);
+		passo+=0.25;
 
 		if (moveForward && whichy[0]){
+			
+			//velocity.y += p;
+			yawObject.rotation.z+=p*0.005;
+			console.log(velocity.y);
+			
+			/*
+			if (passo==20){
+				console.log('true');
+	        	velocity.y+=3;
+	        }
+	        if(passo==40){
+	        	console.log('false');
+	        	velocity.y-=3;
+	        	passo=0;
+	        }
+	        passo++;
+	        */
 			velocity.z -= cost * delta;
 			last = 0;
 		}
 		if (moveBackward && whichy[1]){ 
+
+			yawObject.rotation.z+=p*0.005;
+			console.log(velocity.y);
+
 			velocity.z += cost * delta;
 			last = 1;
 		}
 		if (moveLeft && whichy[2]){ 
+
+			yawObject.rotation.z+=p*0.005;
+			console.log(velocity.y);
+
 			velocity.x -= cost * delta;
 			last = 2;
 		}
 		if (moveRight && whichy[3]){ 
+
+			yawObject.rotation.z+=p*0.005;
+			console.log(velocity.y);
+
 			velocity.x += cost * delta;
 			last = 3;
 		}
 		if ( isOnObject === true ) {
+
+			yawObject.rotation.z+=p*0.005;
+			console.log(velocity.y);
+
 			velocity.y = Math.max( 0, velocity.y );
+		}
+
+		if (!moveForward && !moveBackward && !moveRight && !moveLeft){
+				yawObject.rotation.z=0;
+			
 		}
 
 		/*** check collision ***/
@@ -227,6 +273,8 @@ THREE.PointerLockControls = function ( camera ) {
         	whichy[0] = true; whichy[1] = true; whichy[2] = true; whichy[3] = true;
         }
 
+
+
 		yawObject.translateX( velocity.x );
 		yawObject.translateY( velocity.y ); 
 		yawObject.translateZ( velocity.z );
@@ -236,6 +284,8 @@ THREE.PointerLockControls = function ( camera ) {
 			yawObject.position.y = 220;
 			canJump = true;
 		}	
+
+		
 	};
 
 	this.addMesh = function(mesha){
