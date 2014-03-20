@@ -10,6 +10,7 @@ THREE.PointerLockControls = function ( camera ) {
 	var scope = this;
 	camera.rotation.set( 0, 0, 0 );
 
+	//Puntatore
 	var puntatore = new THREE.BoxGeometry(0.1,0.1,0.1);
     var material = new THREE.MeshBasicMaterial( { color: "blue" });
     puntatore.applyMatrix( new THREE.Matrix4().makeTranslation(0, 0, -5) );

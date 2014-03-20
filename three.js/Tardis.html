@@ -4,11 +4,12 @@
     <!--librerie-->
     <script src="http://127.0.0.1:8080/js/three.js"></script>
 
-      <!--moduli-->
+    <!--moduli-->
     <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
     <script src="http://127.0.0.1:8080/js/MovementControl.js"></script>
     <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
     <script src="http://127.0.0.1:8080/js/Animation.js"></script>
+    <script src="http://127.0.0.1:8080/js/Clickable.js"></script>
 
     <style>
             html, body {
@@ -61,35 +62,24 @@
                 cursor: pointer;
 
             }
-
-        </style>
+    </style>
 </head>
 <body>
-<div id="blocker">
-            <div id="instructions">
-                <span style="font-size:40px">Click to play</span>
-                <br/>
-                (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
-            </div>
-
-        </div>
+    <div id="blocker">
+        <div id="instructions">
+            <span style="font-size:40px">Click to play</span>
+            <br/>
+            (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
+         </div>
+    </div>
       
-
     <script>
 
         var camera, scene, renderer;
         var geometry, material, mesh;
-
         var manopola;
-
-        var point;
-
         var controls ,time = Date.now();
-
-        var objects = [];
-
         var ray;
-
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
 
@@ -117,6 +107,12 @@
             scene = new THREE.Scene();
 
             controls = new THREE.PointerLockControls( camera );
+
+            /** CLICKABLE **/
+            var clickable = new Clickable(controls); //instazio la classe clickable passandogli la variabile legata a PointerLockControls
+            document.addEventListener( 'mousedown', clickable.onDocumentMouseDown, false ); // aggiungo l'evento mousedown
+            /*******/
+
             scene.add( controls.getObject() );
 
             ray = new THREE.Raycaster();
@@ -189,6 +185,7 @@
                     manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
                     manapolaAnimation = new Animation(manopola);
                     //manapolaAnimation.startAni();
+                    clickable.addCMesh(manopola);
                     
                 });
 
@@ -212,26 +209,27 @@
             window.addEventListener( 'resize', onWindowResize, false );
 
             var primaVolta = true;
-            window.addEventListener('click', function(e){ 
-                if (!primaVolta){
-                    manapolaAnimation.startAni();
-                    //alert('asdasd');
-                }else{
-                    primaVolta = false;
-                }
-            });
+
+            //NON SERVE PIU'
+            // window.addEventListener('click', function(e){ 
+            //     if (!primaVolta){
+            //         manapolaAnimation.startAni();
+            //         //alert('asdasd');
+            //     }else{
+            //         primaVolta = false;
+            //     }
+            // });
         
         }
 
 
         function onWindowResize() {
 
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize( window.innerWidth, window.innerHeight );
 
-                renderer.setSize( window.innerWidth, window.innerHeight );
-
-            }
+        }
 
 
         function animate() {
