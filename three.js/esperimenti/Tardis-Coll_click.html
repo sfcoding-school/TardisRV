@@ -79,9 +79,7 @@
         var camera, scene, renderer;
         var geometry, material, mesh;
         var manopola;
-        var point;
-        var controls ,time = Date.now();
-        var objects = [];
+        var controls, time = Date.now();
         var ray;
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
@@ -97,7 +95,6 @@
         function init() {
 
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-           
 
             scene = new THREE.Scene();
             
@@ -156,20 +153,16 @@
             document.body.appendChild( renderer.domElement );
 
             window.addEventListener( 'resize', onWindowResize, false );
-
-            var primaVolta = true;
         
         }
 
-
         function onWindowResize() {
 
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize( window.innerWidth, window.innerHeight );
 
-                renderer.setSize( window.innerWidth, window.innerHeight );
-
-            }
+        }
 
 
         function animate() {
