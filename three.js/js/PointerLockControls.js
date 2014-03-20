@@ -135,7 +135,7 @@ THREE.PointerLockControls = function ( camera ) {
 
 			return v;
 
-		}
+		};
 
 	}();
 
