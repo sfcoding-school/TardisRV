@@ -6,7 +6,7 @@
 
       <!--moduli-->
     <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
-    <script src="http://127.0.0.1:8080/js/PointerLockControlsByUlisse.js"></script>
+    <script src="http://127.0.0.1:8080/js/MovementControl.js"></script>
     <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
     <script src="http://127.0.0.1:8080/js/Animation.js"></script>
 
@@ -136,7 +136,7 @@
 
             //cilindri energetici
             var cylinder = new THREE.Mesh(
-                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
                 new THREE.MeshLambertMaterial({color: 0xFFFFFF})
                 );
             cylinder.receiveShadow = true;
@@ -145,7 +145,7 @@
             scene.add(cylinder);
             
             var cylinder = new THREE.Mesh(
-                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
                 new THREE.MeshLambertMaterial({color: 0xFFFFFF})
                 );
             cylinder.receiveShadow = true;
@@ -154,7 +154,7 @@
             scene.add(cylinder);
             
             var cylinder = new THREE.Mesh(
-                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
                 new THREE.MeshLambertMaterial({color: 0xFFFFFF})
                 );
             cylinder.receiveShadow = true;
@@ -163,7 +163,7 @@
             scene.add(cylinder);
             
             var cylinder = new THREE.Mesh(
-                new THREE.CylinderGeometry(10, 10, 60, 100, 100, false),
+                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
                 new THREE.MeshLambertMaterial({color: 0xFFFFFF})
                 );
             cylinder.receiveShadow = true;
@@ -260,7 +260,8 @@
             }
             */
             
-            controls.update( Date.now() - time );
+            //controls.update( Date.now() - time );
+            controls.update(1);
 
             renderer.render( scene, camera );
 
