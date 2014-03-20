@@ -25,10 +25,10 @@ Clickable.prototype.onDocumentMouseDown = function( event ) {
 
 	if ( intersects.length > 0 ) {
 
-	    var manopola_uuid = clickMesh[0].uuid;
+		var manopola_uuid = clickMesh[0].uuid;
 
-	    if (intersects[0].object.uuid == manopola_uuid && intersects[0].distance < 200) {
-	    	manapolaAnimation.startAni();
-	    }
+		if (intersects[0].object.uuid == manopola_uuid && intersects[0].distance < 200) {
+			manapolaAnimation.startAni();
+		}
 	}
-}
+};
