@@ -5,9 +5,8 @@ var t = 0;
 
 //costruttore
 function Animation(object){
-	
-   	this.object = object;
-   	//console.log(this.object);
+    this.object = object;
+    //console.log(this.object);
 }
 
 // metodi
@@ -30,7 +29,7 @@ Animation.prototype.update = function(){
             }
         }
 	}
-}
+};
 
 Animation.prototype.startAni = function(){
 	muoviManopola = true;
@@ -41,5 +40,4 @@ Animation.prototype.startAni = function(){
 		revert = true;
 		up = true;
 	}
-
-}
+};
