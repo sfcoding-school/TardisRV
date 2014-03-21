@@ -82,7 +82,7 @@
         var ray;
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
-
+        var cylinder1, cylinder2, cylinder3, cylinder4; 
         //var muoviManopola=false;
 
         //ar t=0;
@@ -131,41 +131,41 @@
 
 
             //cilindri energetici
-            var cylinder = new THREE.Mesh(
+            cylinder1 = new THREE.Mesh(
                 new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                new THREE.MeshLambertMaterial({color: 0xCD0000})
                 );
-            cylinder.receiveShadow = true;
-            cylinder.overdraw = true;
-            cylinder.position.set(-15,185,-15);
-            scene.add(cylinder);
+            cylinder1.receiveShadow = true;
+            cylinder1.overdraw = true;
+            cylinder1.position.set(-15,185,-15);
+            scene.add(cylinder1);
             
-            var cylinder = new THREE.Mesh(
+            cylinder2 = new THREE.Mesh(
                 new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                new THREE.MeshLambertMaterial({color: 0xCD0000} )
                 );
-            cylinder.receiveShadow = true;
-            cylinder.overdraw = true;
-            cylinder.position.set(15,185,-15);
-            scene.add(cylinder);
+            cylinder2.receiveShadow = true;
+            cylinder2.overdraw = true;
+            cylinder2.position.set(15,185,-15);
+            scene.add(cylinder2);
+
+            cylinder3 = new THREE.Mesh(
+                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
+                new THREE.MeshLambertMaterial({color: 0xCD0000})
+                );
+            cylinder3.receiveShadow = true;
+            cylinder3.overdraw = true;
+            cylinder3.position.set(15,185,15);
+            scene.add(cylinder3);
             
-            var cylinder = new THREE.Mesh(
+            cylinder4 = new THREE.Mesh(
                 new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                new THREE.MeshLambertMaterial({color: 0xCD0000})
                 );
-            cylinder.receiveShadow = true;
-            cylinder.overdraw = true;
-            cylinder.position.set(15,185,15);
-            scene.add(cylinder);
-            
-            var cylinder = new THREE.Mesh(
-                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
-                );
-            cylinder.receiveShadow = true;
-            cylinder.overdraw = true;
-            cylinder.position.set(-15,185,15);
-            scene.add(cylinder);
+            cylinder4.receiveShadow = true;
+            cylinder4.overdraw = true;
+            cylinder4.position.set(-15,185,15);
+            scene.add(cylinder4);
                         
 
             var importer = new blenderImporter(scene);
