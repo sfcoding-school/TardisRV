@@ -82,18 +82,11 @@
         var ray;
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
-        var cylinder1, cylinder2, cylinder3, cylinder4; 
-        //var muoviManopola=false;
-
-        //ar t=0;
-
         var collidableMeshList;
         var manapolaAnimation;
-
+        var cylinder1, cylinder2, cylinder3, cylinder4; 
         initPointLock(blocker, instructions);
-
         init();
-
         animate();
 
 
@@ -122,7 +115,7 @@
             //floor
             var plane = new THREE.Mesh(
                 new THREE.PlaneGeometry(1000, 1000, 100, 100),
-                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                new THREE.MeshLambertMaterial({color: 0xFFFFFF })
                 );
             plane.rotation.x = -Math.PI / 2;
             plane.position.y = 0;
@@ -235,28 +228,10 @@
             requestAnimationFrame( animate );
                     
             manapolaAnimation.update();
-            
-           //controls.isOnObject( false );
 
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
 
-            /*
-            var intersections = ray.intersectObjects( objects );
-
-            if ( intersections.length > 0 ) {
-
-                var distance = intersections[ 0 ].distance;
-
-                if ( distance > 0 && distance < 10 ) {
-
-                    controls.isOnObject( true );
-
-                }
-
-            }
-            */
-            
             controls.update( Date.now() - time );
             
 
