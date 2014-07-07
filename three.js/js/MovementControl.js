@@ -169,8 +169,9 @@ THREE.PointerLockControls = function ( camera ) {
 		if ( isOnObject === true ) {
 			velocity.y = Math.max( 0, velocity.y );
 		}
-
+		
 		/*** check collision ***/
+		/*
 		var rays = [
                 new THREE.Vector3(0, 0, 1),
                 new THREE.Vector3(1, 0, 1),
@@ -226,7 +227,7 @@ THREE.PointerLockControls = function ( camera ) {
         	bool = true;
         	whichy[0] = true; whichy[1] = true; whichy[2] = true; whichy[3] = true;
         }
-
+*/
 		yawObject.translateX( velocity.x );
 		yawObject.translateY( velocity.y ); 
 		yawObject.translateZ( velocity.z );

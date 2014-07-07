@@ -86,7 +86,7 @@
         //var muoviManopola=false;
 
         //ar t=0;
-
+        var line
         var collidableMeshList;
         var manapolaAnimation;
         var annie;
@@ -219,26 +219,17 @@
             // create the video element
             video = document.createElement( 'video' );
             // video.id = 'video';
-            video.type = ' video/mp4; codecs="theora, vorbis" ';
+            //video.type = ' video/mp4; codecs="theora, vorbis" ';
             video.src = "http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv";
             video.load(); // must call after setting/changing source
             video.play();
             
-            // alternative method -- 
-            // create DIV in HTML:
-            // <video id="myVideo" autoplay style="display:none">
-            //      <source src="videos/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
-            // </video>
-            // and set JS variable:
-            // video = document.getElementById( 'myVideo' );
             
             videoImage = document.createElement( 'canvas' );
-            videoImage.width = 480;
-            videoImage.height = 204;
+            videoImage.width = 320;
+            videoImage.height = 240;
 
             videoImageContext = videoImage.getContext( '2d' );
-            // background color if no video present
-            videoImageContext.fillStyle = '#000000';
             videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
 
             videoTexture = new THREE.Texture( videoImage );
@@ -248,11 +239,39 @@
             var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
             // the geometry on which the movie will be displayed;
             //      movie image will be scaled to fit these dimensions.
-            var movieGeometry = new THREE.PlaneGeometry( 240, 100, 4, 4 );
+            //var movieGeometry = new THREE.PlaneGeometry( 50, 50, 1, 1 );
+            var movieGeometry = new THREE.CircleGeometry( 30, 128 );
             var movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
-            movieScreen.position.set(200,100,0);
+
+            movieScreen.position.set(-100,142,-5);
+            movieScreen.rotation.x = -Math.PI / 2;
+            movieScreen.rotation.y = -Math.PI / 8;
+            movieScreen.rotation.z = -Math.PI / 2;
+
             scene.add(movieScreen);
+
             //END TEST
+
+            ///////////////////////
+             var material = new THREE.LineBasicMaterial({
+                color: 0xff0000,
+                linewidth: 5
+            });
+            
+
+            var lineGeometry = new THREE.Geometry();
+            lineGeometry.vertices.push(new THREE.Vector3(0,0,0));
+            line = new THREE.Mesh(lineGeometry, material);
+
+            var geometry = new THREE.Geometry();
+            geometry.vertices.push(new THREE.Vector3(-6, 0, 0));
+            geometry.vertices.push(new THREE.Vector3(0, 6, 0));
+
+
+            line = new THREE.Line(geometry, material);
+            line.position.set(24,145,-85);
+
+            scene.add(line);
 
         }
 
@@ -286,6 +305,9 @@
             }
             
             controls.update( Date.now() - time );
+
+///
+             //line.rotateOnAxis( new THREE.Vector3(0,1,0).normalize(), 0.05 );
             
 
             renderer.render( scene, camera );
