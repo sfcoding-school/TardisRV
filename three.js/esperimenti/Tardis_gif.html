@@ -212,17 +212,46 @@
 
             //TEST
 
-            /*var material = new THREE.MeshLambertMaterial({
-                map: THREE.ImageUtils.loadTexture('http://127.0.0.1:8080/esperimenti/cardiac.gif')
-              });*/
+            ///////////
+            // VIDEO //
+            ///////////
+            
+            // create the video element
+            video = document.createElement( 'video' );
+            // video.id = 'video';
+            // video.type = ' video/ogg; codecs="theora, vorbis" ';
+            video.src = "http://127.0.0.1:8080/esperimenti/testvideo.mp4";
+            video.load(); // must call after setting/changing source
+            video.play();
+            
+            // alternative method -- 
+            // create DIV in HTML:
+            // <video id="myVideo" autoplay style="display:none">
+            //      <source src="videos/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
+            // </video>
+            // and set JS variable:
+            // video = document.getElementById( 'myVideo' );
+            
+            videoImage = document.createElement( 'canvas' );
+            videoImage.width = 480;
+            videoImage.height = 204;
 
-                
-            var runnerTexture = new THREE.ImageUtils.loadTexture( 'http://127.0.0.1:8080/esperimenti/cardiac.gif' );
-            var runnerMaterial = new THREE.MeshBasicMaterial( { map: runnerTexture, side:THREE.DoubleSide } );
-            var runnerGeometry = new THREE.PlaneGeometry(50, 50, 1, 1);
-            var runner = new THREE.Mesh(runnerGeometry, runnerMaterial);
-            runner.position.set(200,100,0);
-            scene.add(runner);
+            videoImageContext = videoImage.getContext( '2d' );
+            // background color if no video present
+            videoImageContext.fillStyle = '#000000';
+            videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
+
+            videoTexture = new THREE.Texture( videoImage );
+            videoTexture.minFilter = THREE.LinearFilter;
+            videoTexture.magFilter = THREE.LinearFilter;
+            
+            var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
+            // the geometry on which the movie will be displayed;
+            //      movie image will be scaled to fit these dimensions.
+            var movieGeometry = new THREE.PlaneGeometry( 240, 100, 4, 4 );
+            var movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
+            movieScreen.position.set(200,100,0);
+            scene.add(movieScreen);
             //END TEST
 
         }
