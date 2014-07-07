@@ -255,21 +255,17 @@
             ///////////////////////
              var material = new THREE.LineBasicMaterial({
                 color: 0xff0000,
-                linewidth: 5
+                linewidth: 2
             });
-            
-
-            var lineGeometry = new THREE.Geometry();
-            lineGeometry.vertices.push(new THREE.Vector3(0,0,0));
-            line = new THREE.Mesh(lineGeometry, material);
 
             var geometry = new THREE.Geometry();
-            geometry.vertices.push(new THREE.Vector3(-6, 0, 0));
+            geometry.vertices.push(new THREE.Vector3(6, 0, 0));
             geometry.vertices.push(new THREE.Vector3(0, 6, 0));
 
 
             line = new THREE.Line(geometry, material);
-            line.position.set(24,145,-85);
+            line.position.set(24,142,-85);
+            line.rotation.y = Math.PI /3;
 
             scene.add(line);
 
