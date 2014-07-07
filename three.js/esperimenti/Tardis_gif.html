@@ -219,18 +219,18 @@
             // create the video element
             video = document.createElement( 'video' );
             // video.id = 'video';
-            // video.type = ' video/ogg; codecs="theora, vorbis" ';
+            video.type = ' video/mp4; codecs="theora, vorbis" ';
             video.src = "http://127.0.0.1:8080/esperimenti/testvideo.mp4";
             video.load(); // must call after setting/changing source
             video.play();
             
             // alternative method -- 
             // create DIV in HTML:
-            // <video id="myVideo" autoplay style="display:none">
-            //      <source src="videos/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
-            // </video>
+            <video id="myVideo" autoplay style="display:none">
+                  <source src="videos/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
+             </video>
             // and set JS variable:
-            // video = document.getElementById( 'myVideo' );
+             video = document.getElementById( 'myVideo' );
             
             videoImage = document.createElement( 'canvas' );
             videoImage.width = 480;
