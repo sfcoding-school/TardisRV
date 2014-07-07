@@ -8,8 +8,9 @@
     <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
     <script src="http://127.0.0.1:8080/js/MovementControl.js"></script>
     <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
-    <script src="http://127.0.0.1:8080/js/Animation.js"></script>
+    <script src="http://127.0.0.1:8080/js/ManopolaAnimation.js"></script>
     <script src="http://127.0.0.1:8080/js/Clickable.js"></script>
+    <script src="http://127.0.0.1:8080/js/debugAxes.js"></script>
 
     <style>
             html, body {
@@ -77,7 +78,8 @@
 
         var camera, scene, renderer;
         var geometry, material, mesh;
-        var manopola;
+        //var manopola1;
+        //var manopola2;
         var controls ,time = Date.now();
         var ray;
         var blocker = document.getElementById( 'blocker' );
@@ -88,7 +90,8 @@
         //ar t=0;
 
         var collidableMeshList;
-        var manapolaAnimation;
+        var manopolaAnimation1;
+        var manopolaAnimation2;
 
         initPointLock(blocker, instructions);
 
@@ -176,19 +179,56 @@
             });
             
 
-            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
+            importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
                     console.log('callBack');
-                    //console.log(mesh);
-                    manopola = object;
-                    //geometry.applyMatrix( new THREE.Matrix4().makeRotationY(-51.788) );
-                    manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
-                    manapolaAnimation = new Animation(manopola);
-                    //manapolaAnimation.startAni();
-                    clickable.addCMesh(manopola);
+                    object.rotateOnAxis( new THREE.Vector3(1,0,-0.45).normalize(), 0.4 );
+                    manopolaAnimation2 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.45), function(){
+                        //console.log('accesa');
+                    }, function(){
+                        //console.log('spenta');
+                    });
+                    clickable.addCMesh(new Array(object, manopolaAnimation2));
                     
                 });
 
-            
+            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
+                    console.log('callBack');
+                    object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
+                    manopolaAnimation1 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.70), function (){
+                        var a = Math.floor((Math.random()*100)+1)%8;
+                        if(a === 0){
+                            cylinder1.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 1){
+                            cylinder1.material.emissive.setHex( 0x8B0000 );
+                        }
+                        if(a == 2){
+                            cylinder2.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 3){
+                            cylinder2.material.emissive.setHex( 0x8B0000 );
+                        }
+                        if(a == 4){
+                            cylinder3.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 5){
+                            cylinder3.material.emissive.setHex( 0x8B0000 );
+                        }
+                        if(a == 6){
+                            cylinder4.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 7){
+                            cylinder4.material.emissive.setHex( 0x8B0000 );
+                        }
+                    }, function(){
+                        cylinder1.material.emissive.setHex( 0x8B0000 );
+                        cylinder2.material.emissive.setHex( 0x8B0000 );
+                        cylinder3.material.emissive.setHex( 0x8B0000 );
+                        cylinder4.material.emissive.setHex( 0x8B0000 );
+                        });
+                    //manapolaAnimation.startAni();
+                    clickable.addCMesh(new Array(object, manopolaAnimation1));
+                });
 
             var spotlight = new THREE.SpotLight(0xffffff);
             spotlight.position.set(0,600,0);
@@ -199,6 +239,10 @@
             // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);
+
+            //DEBUG-Axes
+            axes = buildAxes( 1000 );
+            scene.add( axes );
 
             renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setSize( window.innerWidth, window.innerHeight );
@@ -218,9 +262,10 @@
             //         primaVolta = false;
             //     }
             // });
-        
+     
         }
 
+        
 
         function onWindowResize() {
 
@@ -234,7 +279,8 @@
         function animate() {
             requestAnimationFrame( animate );
                     
-            manapolaAnimation.update();
+            manopolaAnimation1.update();
+            manopolaAnimation2.update();
             
            //controls.isOnObject( false );
 

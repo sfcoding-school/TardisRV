@@ -25,10 +25,15 @@ Clickable.prototype.onDocumentMouseDown = function( event ) {
 
 	if ( intersects.length > 0 ) {
 
-		var manopola_uuid = clickMesh[0].uuid;
-
-		if (intersects[0].object.uuid == manopola_uuid && intersects[0].distance < 200) {
-			manapolaAnimation.startAni();
-		}
+		//var manopola_uuid = clickMesh[0].uuid;
+		clickMesh.forEach(function(entry) {
+			console.log(entry);
+			if (intersects[0].object.uuid == entry[0].uuid && intersects[0].distance < 200) {
+				entry[1].startAni();
+			}
+		});
+		//if (intersects[0].object.uuid == manopola_uuid && intersects[0].distance < 200) {
+		//	manopolaAnimation1.startAni();
+		//}
 	}
 };
