@@ -8,60 +8,14 @@
     <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
     <script src="http://127.0.0.1:8080/js/MovementControl.js"></script>
     <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
-    <script src="http://127.0.0.1:8080/js/Animation.js"></script>
+    <script src="http://127.0.0.1:8080/js/ManopolaAnimation.js"></script>
     <script src="http://127.0.0.1:8080/js/Clickable.js"></script>
+    <script src="http://127.0.0.1:8080/js/video.js"></script>
+    <script src="http://127.0.0.1:8080/js/debugAxes.js"></script>
 
+    <link href="http://127.0.0.1:8080/style/tardis.css" rel="stylesheet" type="text/css">
     <style>
-            html, body {
-                width: 100%;
-                height: 100%;
-            }
-
-            body {
-                background-color: #ffffff;
-                margin: 0;
-                overflow: hidden;
-                font-family: arial;
-            }
-
-            #blocker {
-
-                position: absolute;
-
-                width: 100%;
-                height: 100%;
-
-                background-color: rgba(0,0,0,0.5);
-
-            }
-
-            #instructions {
-
-                width: 100%;
-                height: 100%;
-
-                display: -webkit-box;
-                display: -moz-box;
-                display: box;
-
-                -webkit-box-orient: horizontal;
-                -moz-box-orient: horizontal;
-                box-orient: horizontal;
-
-                -webkit-box-pack: center;
-                -moz-box-pack: center;
-                box-pack: center;
-
-                -webkit-box-align: center;
-                -moz-box-align: center;
-                box-align: center;
-
-                color: #ffffff;
-                text-align: center;
-
-                cursor: pointer;
-
-            }
+            
     </style>
 </head>
 <body>
@@ -77,7 +31,8 @@
 
         var camera, scene, renderer;
         var geometry, material, mesh;
-        var manopola;
+        //var manopola1;
+        //var manopola2;
         var controls ,time = Date.now();
         var ray;
         var blocker = document.getElementById( 'blocker' );
@@ -86,10 +41,12 @@
         //var muoviManopola=false;
 
         //ar t=0;
-        var line
+
         var collidableMeshList;
-        var manapolaAnimation;
-        var annie;
+        var manopolaAnimation1;
+        var manopolaAnimation2;
+        var loadV;
+        var line;
 
         initPointLock(blocker, instructions);
 
@@ -177,19 +134,56 @@
             });
             
 
-            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
+            importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
                     console.log('callBack');
-                    //console.log(mesh);
-                    manopola = object;
-                    //geometry.applyMatrix( new THREE.Matrix4().makeRotationY(-51.788) );
-                    manopola.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
-                    manapolaAnimation = new Animation(manopola);
-                    //manapolaAnimation.startAni();
-                    clickable.addCMesh(manopola);
+                    object.rotateOnAxis( new THREE.Vector3(1,0,-0.45).normalize(), 0.4 );
+                    manopolaAnimation2 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.45), function(){
+                        //console.log('accesa');
+                    }, function(){
+                        //console.log('spenta');
+                    });
+                    clickable.addCMesh(new Array(object, manopolaAnimation2));
                     
                 });
 
-            
+            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
+                    console.log('callBack');
+                    object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
+                    manopolaAnimation1 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.70), function (){
+                        var a = Math.floor((Math.random()*100)+1)%8;
+                        if(a === 0){
+                            cylinder1.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 1){
+                            cylinder1.material.emissive.setHex( 0x8B0000 );
+                        }
+                        if(a == 2){
+                            cylinder2.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 3){
+                            cylinder2.material.emissive.setHex( 0x8B0000 );
+                        }
+                        if(a == 4){
+                            cylinder3.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 5){
+                            cylinder3.material.emissive.setHex( 0x8B0000 );
+                        }
+                        if(a == 6){
+                            cylinder4.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 7){
+                            cylinder4.material.emissive.setHex( 0x8B0000 );
+                        }
+                    }, function(){
+                        cylinder1.material.emissive.setHex( 0x8B0000 );
+                        cylinder2.material.emissive.setHex( 0x8B0000 );
+                        cylinder3.material.emissive.setHex( 0x8B0000 );
+                        cylinder4.material.emissive.setHex( 0x8B0000 );
+                        });
+                    //manapolaAnimation.startAni();
+                    clickable.addCMesh(new Array(object, manopolaAnimation1));
+                });
 
             var spotlight = new THREE.SpotLight(0xffffff);
             spotlight.position.set(0,600,0);
@@ -201,6 +195,13 @@
             spotlight.castShadow = true;
             scene.add(spotlight);
 
+            loadV = new video(scene);
+            loadV.loadVideo();
+
+            //DEBUG-Axes
+            axes = buildAxes( 1000 );
+            scene.add( axes );
+
             renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setSize( window.innerWidth, window.innerHeight );
             renderer.shadowMapEnabled = true;
@@ -210,50 +211,8 @@
 
             var primaVolta = true;
 
-            //TEST
-
-            ///////////
-            // VIDEO //
-            ///////////
-            
-            // create the video element
-            video = document.createElement( 'video' );
-            // video.id = 'video';
-            //video.type = ' video/mp4; codecs="theora, vorbis" ';
-            video.src = "http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv";
-            video.load(); // must call after setting/changing source
-            video.play();
-            
-            
-            videoImage = document.createElement( 'canvas' );
-            videoImage.width = 320;
-            videoImage.height = 240;
-
-            videoImageContext = videoImage.getContext( '2d' );
-            videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
-
-            videoTexture = new THREE.Texture( videoImage );
-            videoTexture.minFilter = THREE.LinearFilter;
-            videoTexture.magFilter = THREE.LinearFilter;
-            
-            var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
-            // the geometry on which the movie will be displayed;
-            //      movie image will be scaled to fit these dimensions.
-            //var movieGeometry = new THREE.PlaneGeometry( 50, 50, 1, 1 );
-            var movieGeometry = new THREE.CircleGeometry( 30, 128 );
-            var movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
-
-            movieScreen.position.set(-100,142,-5);
-            movieScreen.rotation.x = -Math.PI / 2;
-            movieScreen.rotation.y = -Math.PI / 8;
-            movieScreen.rotation.z = -Math.PI / 2;
-
-            scene.add(movieScreen);
-
-            //END TEST
-
-            ///////////////////////
-             var material = new THREE.LineBasicMaterial({
+            //////////////////////
+            var material = new THREE.LineBasicMaterial({
                 color: 0xff0000,
                 linewidth: 2
             });
@@ -264,14 +223,25 @@
 
 
             line = new THREE.Line(geometry, material);
-            line.position.set(24,143,-85);
-            line.rotation.y = Math.PI /3;
+            line.position.set(24, 143, -85);
+            line.rotation.y = Math.PI / 3;
+
+            scene.add(line);
+
+            var geometry2 = new THREE.Geometry();
+            geometry2.vertices.push(new THREE.Vector3(6, 0, 0));
+            geometry2.vertices.push(new THREE.Vector3(0, 6, 0));
+
+
+            line = new THREE.Line(geometry2, material);
+            line.position.set(65, 143, -62);
+            line.rotation.y = Math.PI / 3;
 
             scene.add(line);
 
         }
 
-
+        
 
         function onWindowResize() {
 
@@ -285,25 +255,33 @@
         function animate() {
             requestAnimationFrame( animate );
                     
-            manapolaAnimation.update();
+            manopolaAnimation1.update();
+            manopolaAnimation2.update();
             
            //controls.isOnObject( false );
 
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
 
-            if ( video.readyState === video.HAVE_ENOUGH_DATA ) {
-                videoImageContext.drawImage( video, 0, 0 );
-                if ( videoTexture ) {
-                    videoTexture.needsUpdate = true;
-                    console.log('videoUpdate');
+            /*
+            var intersections = ray.intersectObjects( objects );
+
+            if ( intersections.length > 0 ) {
+
+                var distance = intersections[ 0 ].distance;
+
+                if ( distance > 0 && distance < 10 ) {
+
+                    controls.isOnObject( true );
+
                 }
+
             }
+            */
+
+            loadV.update();
             
             controls.update( Date.now() - time );
-
-///
-             //line.rotateOnAxis( new THREE.Vector3(0,1,0).normalize(), 0.05 );
             
 
             renderer.render( scene, camera );
