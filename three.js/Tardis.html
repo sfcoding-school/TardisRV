@@ -10,6 +10,7 @@
     <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
     <script src="http://127.0.0.1:8080/js/Animation.js"></script>
     <script src="http://127.0.0.1:8080/js/Clickable.js"></script>
+    <script src="http://127.0.0.1:8080/js/video.js"></script>
 
     <style>
             html, body {
@@ -88,7 +89,7 @@
         //ar t=0;
 
         var collidableMeshList;
-        var manapolaAnimation;
+        var manapolaAnimation, loadV;
 
         initPointLock(blocker, instructions);
 
@@ -218,6 +219,10 @@
             //         primaVolta = false;
             //     }
             // });
+
+            loadV = new video(scene);
+            
+            loadV.loadVideo();
         
         }
 
@@ -256,6 +261,8 @@
 
             }
             */
+
+            loadV.update();
             
             controls.update( Date.now() - time );
             
