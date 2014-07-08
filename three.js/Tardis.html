@@ -77,7 +77,6 @@
             ray = new THREE.Raycaster();
                 ray.ray.direction.set( 0, -1, 0 );
 
-            
             //floor
             var plane = new THREE.Mesh(
                 new THREE.PlaneGeometry(1000, 1000, 100, 100),
@@ -87,6 +86,39 @@
             plane.position.y = 0;
             plane.receiveShadow = true;
             scene.add(plane);
+
+            //SHERMI PICCOLI
+            var schermo = new THREE.Mesh(
+                new THREE.PlaneGeometry(5, 30, 100, 100),
+                new THREE.MeshLambertMaterial({color: 0xCD0000})
+                );
+            schermo.rotation.x = -Math.PI / 2;
+            schermo.position.set(60, 157, 4);
+            schermo.rotation.y = Math.PI / 9;
+            schermo.receiveShadow = true;
+            scene.add(schermo);   
+
+            schermo = new THREE.Mesh(
+                new THREE.PlaneGeometry(30, 5, 100, 100),
+                new THREE.MeshLambertMaterial({color: 0xCD0000})
+            );
+            schermo.rotation.x = -Math.PI / 2 + Math.PI / 16;
+            schermo.position.set(30, 156.8, 53.5);
+            schermo.rotation.z = Math.PI / 5 - Math.PI / 25;
+            schermo.rotation.y = Math.PI / 32;
+            schermo.receiveShadow = true;
+            scene.add(schermo);          
+
+            schermo = new THREE.Mesh(
+                new THREE.PlaneGeometry(30, 5, 100, 100),
+                new THREE.MeshLambertMaterial({color: 0xCD0000, side: THREE.BackSide})
+            );
+            schermo.position.set(33, 156, -48);
+            schermo.rotation.x = Math.PI / 2 - Math.PI/8;
+            schermo.rotation.y = -Math.PI / 20 - Math.PI / 50;
+            schermo.rotation.z = Math.PI / 8 + Math.PI / 35;
+            schermo.receiveShadow = true;
+            scene.add(schermo);  
 
             //cilindri energetici
             cylinder1 = new THREE.Mesh(
