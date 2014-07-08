@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
 <head>
     <!--librerie-->
@@ -14,10 +13,8 @@
     <script src="http://127.0.0.1:8080/js/video.js"></script>
     <script src="http://127.0.0.1:8080/js/debugAxes.js"></script>
 
+    <!-- CSS -->
     <link href="http://127.0.0.1:8080/style/tardis.css" rel="stylesheet" type="text/css">
-    <style>
-            
-    </style>
 </head>
 <body>
     <div id="blocker">
@@ -37,6 +34,7 @@
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
         var cylinder1, cylinder2, cylinder3, cylinder4; 
+        var schermo1, schermo2, schermo3;
         var collidableMeshList;
         var manopolaAnimation1;
         var manopolaAnimation2;
@@ -49,10 +47,7 @@
 
         animate();
 
-
         function init() {
-
-
 
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
             //camera.applyMatrix( new THREE.Matrix4().makeTranslation(400, 400, 400) );
@@ -82,37 +77,40 @@
             scene.add(plane);
 
             //SHERMI PICCOLI
-            var schermo = new THREE.Mesh(
-                new THREE.PlaneGeometry(5, 30, 100, 100),
-                new THREE.MeshLambertMaterial({color: 0xCD0000})
+            schermo1 = new THREE.Mesh(
+                new THREE.CylinderGeometry(3, 3, 30, 100, 100, false), //new THREE.PlaneGeometry(5, 30, 100, 100),
+                new THREE.MeshPhongMaterial({color: 0x800000})
                 );
-            schermo.rotation.x = -Math.PI / 2;
-            schermo.position.set(60, 157, 4);
-            schermo.rotation.y = Math.PI / 9;
-            schermo.receiveShadow = true;
-            scene.add(schermo);   
+            schermo1.rotation.x = -Math.PI / 2;
+            schermo1.position.set(60, 155, 4);
+            schermo1.rotation.y = Math.PI / 9;
+            schermo1.receiveShadow = false;
+            scene.add(schermo1);  
+            
 
-            schermo = new THREE.Mesh(
-                new THREE.PlaneGeometry(30, 5, 100, 100),
+            schermo2 = new THREE.Mesh(
+                new THREE.CylinderGeometry(3, 3, 30, 100, 100, false),//new THREE.PlaneGeometry(30, 5, 100, 100),
                 new THREE.MeshLambertMaterial({color: 0xCD0000})
             );
-            schermo.rotation.x = -Math.PI / 2 + Math.PI / 16;
-            schermo.position.set(30, 156.8, 53.5);
-            schermo.rotation.z = Math.PI / 5 - Math.PI / 25;
-            schermo.rotation.y = Math.PI / 32;
-            schermo.receiveShadow = true;
-            scene.add(schermo);          
+            schermo2.rotation.x = -Math.PI / 2 + Math.PI / 16;
+            schermo2.position.set(30, 156.8, 53.5);
+            schermo2.rotation.z = Math.PI / 2 + Math.PI / 6; //Math.PI / 5 - Math.PI / 25;
+            schermo2.rotation.y = Math.PI / 32;
+            schermo2.receiveShadow = true;
+            scene.add(schermo2);          
 
-            schermo = new THREE.Mesh(
-                new THREE.PlaneGeometry(30, 5, 100, 100),
+            /*
+            schermo3 = new THREE.Mesh(
+                new THREE.CylinderGeometry(3, 3, 30, 100, 100, false),//new THREE.PlaneGeometry(30, 5, 100, 100),
                 new THREE.MeshLambertMaterial({color: 0xCD0000, side: THREE.BackSide})
             );
-            schermo.position.set(33, 156, -48);
-            schermo.rotation.x = Math.PI / 2 - Math.PI/8;
-            schermo.rotation.y = -Math.PI / 20 - Math.PI / 50;
-            schermo.rotation.z = Math.PI / 8 + Math.PI / 35;
-            schermo.receiveShadow = true;
-            scene.add(schermo);  
+            schermo3.position.set(34, 157, -49);
+            schermo3.rotation.x = Math.PI / 2;//Math.PI / 2 - Math.PI / 9;
+            schermo3.rotation.y = 0; //-Math.PI / 20;
+            schermo3.rotation.z = Math.PI / 2 + Math.PI / 6; //Math.PI / 8 + Math.PI / 35;
+            schermo3.receiveShadow = true;
+            scene.add(schermo3);  
+            */
 
             //cilindri energetici
             cylinder1 = new THREE.Mesh(
@@ -155,25 +153,56 @@
             var importer = new blenderImporter(scene);
             
             importer.import('tardis.js', 50, [0,0,0], [0,0,0], function(geometry, object){
-                console.log('callBack');
+                //console.log('callBack');
                 controls.addMesh(object);
             });
+
+            //T
+            var importer1 = new blenderImporter(scene);
+            
+            importer1.import('muro.js', 50, [0,0,0], [0,0,0], function(geometry, object){
+                controls.addMesh(object);
+            });
+            //T
             
 
             importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
-                    console.log('callBack');
+                    //console.log('callBack');
                     object.rotateOnAxis( new THREE.Vector3(1,0,-0.45).normalize(), 0.4 );
                     manopolaAnimation2 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.45), function(){
-                        //console.log('accesa');
+                        var a = Math.floor((Math.random()*100)+1)%4;
+                        
+                        if(a === 0){
+                            schermo1.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 1){
+                            schermo1.material.emissive.setHex( 0x800000 );
+                        }
+                        if(a == 2){
+                            schermo2.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 3){
+                            schermo2.material.emissive.setHex( 0x800000 );
+                        }
+                        /*
+                        if(a == 4){
+                            schermo3.material.emissive.setHex( 0xff0000 );
+                        }
+                        if(a == 5){
+                            schermo3.material.emissive.setHex( 0x800000 );
+                        }
+                        */
+                        
                     }, function(){
-                        //console.log('spenta');
+                        schermo1.material.emissive.setHex( 0x800000 );
+                        schermo2.material.emissive.setHex( 0x800000 );
+                        //schermo3.material.emissive.setHex( 0x800000 );
                     });
-                    clickable.addCMesh(new Array(object, manopolaAnimation2));
-                    
+                    clickable.addCMesh(new Array(object, manopolaAnimation2));      
                 });
 
             importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
-                    console.log('callBack');
+                    //console.log('callBack');
                     object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
                     manopolaAnimation1 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.70), function (){
                         var a = Math.floor((Math.random()*100)+1)%8;
@@ -284,10 +313,7 @@
 
             scene.add(line);
             //FINE LANCETTE
-
         }
-
-        
 
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -295,14 +321,11 @@
             renderer.setSize( window.innerWidth, window.innerHeight );
         }
 
-
         function animate() {
             requestAnimationFrame( animate );
                     
             manopolaAnimation1.update();
             manopolaAnimation2.update();
-            
-           //controls.isOnObject( false );
 
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
