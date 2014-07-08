@@ -27,7 +27,7 @@ Clickable.prototype.onDocumentMouseDown = function( event ) {
 
 		//var manopola_uuid = clickMesh[0].uuid;
 		clickMesh.forEach(function(entry) {
-			console.log(entry);
+			//console.log(entry);
 			if (intersects[0].object.uuid == entry[0].uuid && intersects[0].distance < 200) {
 				entry[1].startAni();
 			}

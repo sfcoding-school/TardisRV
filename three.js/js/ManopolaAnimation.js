@@ -38,10 +38,7 @@ ManopolaAnimation.prototype.update = function(){
 	}
 
     if(this.luci_on){
-        
         this.funzAccesa();
-        
-    
     /*Math.floor((Math.random()*1500)+1);*/
     } else {
         this.funzSpenta();
