@@ -82,12 +82,11 @@
             plane.receiveShadow = true;
             scene.add(plane);
 
-
             //cilindri energetici
             cylinder1 = new THREE.Mesh(
                 new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
                 new THREE.MeshLambertMaterial({color: 0xCD0000})
-                );
+            );
             cylinder1.receiveShadow = true;
             cylinder1.overdraw = true;
             cylinder1.position.set(-15,185,-15);
