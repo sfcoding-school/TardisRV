@@ -69,7 +69,7 @@
             //floor
             var plane = new THREE.Mesh(
                 new THREE.PlaneGeometry(1000, 1000, 100, 100),
-                new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+                new THREE.MeshLambertMaterial({color: 0xc0c0c0})
                 );
             plane.rotation.x = -Math.PI / 2;
             plane.position.y = 0;
@@ -157,13 +157,14 @@
                 controls.addMesh(object);
             });
 
-            //T
-            var importer1 = new blenderImporter(scene);
-            
-            importer1.import('muro.js', 50, [0,0,0], [0,0,0], function(geometry, object){
+            //WALL
+            var importer1 = new blenderImporter(scene); 
+            importer1.import('muro.js', 100, [0,0,0], [0,0,0], function(geometry, object){
                 controls.addMesh(object);
+                object.material.emissive.setHex( 0xffffff );
             });
-            //T
+
+            //END WALL
             
 
             importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
@@ -240,15 +241,37 @@
                     clickable.addCMesh(new Array(object, manopolaAnimation1));
                 });
 
-            var spotlight = new THREE.SpotLight(0xffffff);
-            spotlight.position.set(0,600,0);
+            var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
+            spotlight.position.set(0,500,0);
             spotlight.shadowCameraVisible = true;
             //spotlight.shadowDarkness = 0.25;
-            spotlight.intensity = 3;
+            spotlight.intensity = 1;
             //spotlight.shadowCameraFov = 100;
             // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);
+
+            spotlight = new THREE.DirectionalLight( 0xffffff, 1.5 );
+            spotlight.position.set(300,300,300);
+            spotlight.shadowCameraVisible = true;
+            //spotlight.shadowDarkness = 0.25;
+            spotlight.intensity = 0.2;
+            //spotlight.shadowCameraFov = 100;
+            // must enable shadow casting ability for the light
+            spotlight.castShadow = true;
+            scene.add(spotlight);
+
+            spotlight = new THREE.DirectionalLight( 0xffffff, 1.5 );
+            spotlight.position.set(-300, 300,-300);
+            spotlight.shadowCameraVisible = true;
+            //spotlight.shadowDarkness = 0.25;
+            spotlight.intensity = 0.2;
+            //spotlight.shadowCameraFov = 100;
+            // must enable shadow casting ability for the light
+            spotlight.castShadow = true;
+            scene.add(spotlight);
+
+           
 
             ///VIDEO 
             loadV = new video(scene);
