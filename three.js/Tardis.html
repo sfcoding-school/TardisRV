@@ -32,21 +32,15 @@
 
         var camera, scene, renderer;
         var geometry, material, mesh;
-        //var manopola1;
-        //var manopola2;
         var controls ,time = Date.now();
         var ray;
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
         var cylinder1, cylinder2, cylinder3, cylinder4; 
-        //var muoviManopola=false;
-
-        //ar t=0;
-
         var collidableMeshList;
         var manopolaAnimation1;
         var manopolaAnimation2;
-        var loadV;
+        var loadV, loadV2;
         var line;
 
         initPointLock(blocker, instructions);
@@ -227,8 +221,27 @@
             spotlight.castShadow = true;
             scene.add(spotlight);
 
+            ///VIDEO 
             loadV = new video(scene);
-            loadV.loadVideo();
+            loadV.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 30, function(movieScreen){
+
+                movieScreen.position.set(-100, 142, -5);
+                movieScreen.rotation.x = -Math.PI / 2;
+                movieScreen.rotation.y = -Math.PI / 8;
+                movieScreen.rotation.z = -Math.PI / 2;
+            }, false);
+
+            loadV2 = new video(scene);
+            loadV2.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 12, function(movieScreen){
+
+                movieScreen.position.set(-42, 160, 80);
+                movieScreen.rotation.x = - Math.PI / 16;
+                movieScreen.rotation.y = - Math.PI / 8 - Math.PI / 16;
+                movieScreen.rotation.z = - Math.PI / 32;
+
+                //movieScreen.rotateOnAxis(new THREE.Vector3( -1, 0, -0.3 ).normalize(), Math.PI / 16 + Math.PI / 32);
+
+            }, true);
 
             //DEBUG-Axes
             axes = buildAxes( 1000 );
@@ -243,18 +256,43 @@
 
             var primaVolta = true;
 
-            
+            //LANCETTE (DA DECIDERE SE TENERE)
+            var material = new THREE.LineBasicMaterial({
+                color: 0xff0000,
+                linewidth: 2
+            });
+
+            var geometry = new THREE.Geometry();
+            geometry.vertices.push(new THREE.Vector3(6, 0, 0));
+            geometry.vertices.push(new THREE.Vector3(0, 6, 0));
+
+
+            line = new THREE.Line(geometry, material);
+            line.position.set(24, 143, -85);
+            line.rotation.y = Math.PI / 3;
+
+            scene.add(line);
+
+            var geometry2 = new THREE.Geometry();
+            geometry2.vertices.push(new THREE.Vector3(6, 0, 0));
+            geometry2.vertices.push(new THREE.Vector3(0, 6, 0));
+
+
+            line = new THREE.Line(geometry2, material);
+            line.position.set(65, 143, -62);
+            line.rotation.y = Math.PI / 3;
+
+            scene.add(line);
+            //FINE LANCETTE
 
         }
 
         
 
         function onWindowResize() {
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize( window.innerWidth, window.innerHeight );
-
         }
 
 
@@ -269,26 +307,10 @@
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
 
-            /*
-            var intersections = ray.intersectObjects( objects );
-
-            if ( intersections.length > 0 ) {
-
-                var distance = intersections[ 0 ].distance;
-
-                if ( distance > 0 && distance < 10 ) {
-
-                    controls.isOnObject( true );
-
-                }
-
-            }
-            */
-
             loadV.update();
+            loadV2.update();
             
             controls.update( Date.now() - time );
-            
 
             renderer.render( scene, camera );
 
