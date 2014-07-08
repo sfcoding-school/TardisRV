@@ -1,49 +1,50 @@
-var video, videoImage, videoTexture;
-
 function video(scene){
 	this.scene = scene;
 }
 
-video.prototype.loadVideo = function(){
+video.prototype.loadVideo = function(source, radius, posizionamento, quale){
 	// create the video element
-	video = document.createElement( 'video' );
-	video.src = "http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv";
-	video.load(); // must call after setting/changing source
-	video.play();
+	this.video = document.createElement( 'video' );
+	this.video.src = source;
+	this.video.load(); // must call after setting/changing source
+	this.video.play();
 
 
-	videoImage = document.createElement( 'canvas' );
-	videoImage.width = 320;
-	videoImage.height = 240;
+	this.videoImage = document.createElement( 'canvas' );
+	this.videoImage.width = 320;
+	this.videoImage.height = 240;
 
-	videoImageContext = videoImage.getContext( '2d' );
-	videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
+	this.videoImageContext = this.videoImage.getContext( '2d' );
+	this.videoImageContext.fill();//fillRect( 0, 0, this.videoImage.width, this.videoImage.height + 10);
 
-	videoTexture = new THREE.Texture( videoImage );
-	videoTexture.minFilter = THREE.LinearFilter;
-	videoTexture.magFilter = THREE.LinearFilter;
+	this.videoTexture = new THREE.Texture( this.videoImage );
+	this.videoTexture.minFilter = THREE.LinearFilter;
+	this.videoTexture.magFilter = THREE.LinearFilter;
 
-	var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
+	var movieMaterial = new THREE.MeshBasicMaterial( { map: this.videoTexture, overdraw: true, side:THREE.DoubleSide } );
 	// the geometry on which the movie will be displayed;
 	//      movie image will be scaled to fit these dimensions.
-	//var movieGeometry = new THREE.PlaneGeometry( 50, 50, 1, 1 );
-	var movieGeometry = new THREE.CircleGeometry( 30, 128 );
+	var movieGeometry;
+	if (quale) {
+		movieGeometry = new THREE.PlaneGeometry( 27, 27);
+	}else {
+		movieGeometry = new THREE.CircleGeometry( radius, 128 );
+	}
+	
 	var movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
 
-	movieScreen.position.set(-100,142,-5);
-	movieScreen.rotation.x = -Math.PI / 2;
-	movieScreen.rotation.y = -Math.PI / 8;
-	movieScreen.rotation.z = -Math.PI / 2;
-
 	this.scene.add(movieScreen);
+
+	posizionamento(movieScreen);
+
 }
 
 video.prototype.update = function(){
-	if ( video.readyState === video.HAVE_ENOUGH_DATA ) {
-	    videoImageContext.drawImage( video, 0, 0 );
-	    if ( videoTexture ) {
-	        videoTexture.needsUpdate = true;
-	        console.log('videoUpdate');
+	if ( this.video.readyState === this.video.HAVE_ENOUGH_DATA ) {
+	    this.videoImageContext.drawImage( this.video, 0, 0 );
+	    if ( this.videoTexture ) {
+	        this.videoTexture.needsUpdate = true;
+	        //console.log('videoUpdate');
 	    }
 	}
 }

@@ -45,7 +45,7 @@
         var collidableMeshList;
         var manopolaAnimation1;
         var manopolaAnimation2;
-        var loadV;
+        var loadV, loadV2;
         var line;
 
         initPointLock(blocker, instructions);
@@ -196,7 +196,25 @@
             scene.add(spotlight);
 
             loadV = new video(scene);
-            loadV.loadVideo();
+            loadV.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 30, function(movieScreen){
+
+                movieScreen.position.set(-100, 142, -5);
+                movieScreen.rotation.x = -Math.PI / 2;
+                movieScreen.rotation.y = -Math.PI / 8;
+                movieScreen.rotation.z = -Math.PI / 2;
+            }, false);
+
+            loadV2 = new video(scene);
+            loadV2.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 12, function(movieScreen){
+
+                movieScreen.position.set(-42, 160, 80);
+                movieScreen.rotation.x = - Math.PI / 16;
+                movieScreen.rotation.y = - Math.PI / 8 - Math.PI / 16;
+                movieScreen.rotation.z = - Math.PI / 32;
+
+                //movieScreen.rotateOnAxis(new THREE.Vector3( -1, 0, -0.3 ).normalize(), Math.PI / 16 + Math.PI / 32);
+
+            }, true);
 
             //DEBUG-Axes
             axes = buildAxes( 1000 );
@@ -280,6 +298,7 @@
             */
 
             loadV.update();
+            loadV2.update();
             
             controls.update( Date.now() - time );
             
