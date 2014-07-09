@@ -12,6 +12,7 @@
     <script src="http://127.0.0.1:8080/js/Clickable.js"></script>
     <script src="http://127.0.0.1:8080/js/video.js"></script>
     <script src="http://127.0.0.1:8080/js/debugAxes.js"></script>
+    <script src="http://127.0.0.1:8080/js/Dalek.js"></script>
 
     <!-- CSS -->
     <link href="http://127.0.0.1:8080/style/tardis.css" rel="stylesheet" type="text/css">
@@ -174,16 +175,16 @@
                         var a = Math.floor((Math.random()*100)+1)%4;
                         
                         if(a === 0){
-                            schermo1.material.emissive.setHex( 0xff0000 );
+                            schermo1.material.color.setHex(0xff0000);
                         }
                         if(a == 1){
-                            schermo1.material.emissive.setHex( 0x800000 );
+                            schermo1.material.color.setHex( 0x800000 );
                         }
                         if(a == 2){
-                            schermo2.material.emissive.setHex( 0xff0000 );
+                            schermo2.material.color.setHex( 0xff0000 );
                         }
                         if(a == 3){
-                            schermo2.material.emissive.setHex( 0x800000 );
+                            schermo2.material.color.setHex( 0x800000 );
                         }
                         /*
                         if(a == 4){
@@ -195,8 +196,8 @@
                         */
                         
                     }, function(){
-                        schermo1.material.emissive.setHex( 0x800000 );
-                        schermo2.material.emissive.setHex( 0x800000 );
+                        schermo1.material.color.setHex( 0x800000 );
+                        schermo2.material.color.setHex( 0x800000 );
                         //schermo3.material.emissive.setHex( 0x800000 );
                     });
                     clickable.addCMesh(new Array(object, manopolaAnimation2));      
@@ -276,7 +277,6 @@
             ///VIDEO 
             loadV = new video(scene);
             loadV.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 30, function(movieScreen){
-
                 movieScreen.position.set(-100, 142, -5);
                 movieScreen.rotation.x = -Math.PI / 2;
                 movieScreen.rotation.y = -Math.PI / 8;
@@ -285,7 +285,6 @@
 
             loadV2 = new video(scene);
             loadV2.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 12, function(movieScreen){
-
                 movieScreen.position.set(-42, 160, 80);
                 movieScreen.rotation.x = - Math.PI / 16;
                 movieScreen.rotation.y = - Math.PI / 8 - Math.PI / 16;
@@ -336,6 +335,9 @@
 
             scene.add(line);
             //FINE LANCETTE
+
+            var dlk = new dalekC(scene);
+            dlk.manage();
         }
 
         function onWindowResize() {
