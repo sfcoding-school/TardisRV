@@ -42,6 +42,12 @@
         var line;
              var dalek;
 
+        var rDalek = 0;
+        var vDalek = 0.01;
+        var dio  = 0;
+        var dio2 = Math.floor(Math.random() * 350) + 200;
+
+
         initPointLock(blocker, instructions);
 
         init();
@@ -169,6 +175,7 @@
        
             importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
                 controls.addMesh(object);
+                object.rotation.y += Math.PI/2;
                 dalek=object;
                 //object.material.emissive.setHex( 0xffffff );
             });
@@ -362,6 +369,11 @@
 
             scene.add(line);
             //FINE LANCETTE
+
+            setInterval(function() {
+                rDalek = Math.floor(Math.random() * 450) + 180;
+                console.log(rDalek);
+            }, 10000);
         }
 
         function onWindowResize() {
@@ -370,6 +382,12 @@
             renderer.setSize( window.innerWidth, window.innerHeight );
         }
 
+        
+        /*setInterval(function() {
+                rDalek = Math.floor(Math.random() * 400) + 200;
+                console.log(rDalek);
+            }, 2000);
+        */
         function animate() {
             requestAnimationFrame( animate );
                     
@@ -382,8 +400,24 @@
             loadV.update();
             loadV2.update();
 
+
             //dalek
-            dalek.rotation.y+=0.01;
+            dio += vDalek;
+            //console.log(dio);
+
+            if (dio2 >= rDalek){
+                dio2-=vDalek+1;
+            }
+            else{
+                dio2+=vDalek+1;
+            }
+            //console.log(dio2);
+
+            dalek.position.x = Math.sin(dio) * dio2;
+            dalek.position.z = Math.cos(dio) * dio2;
+            //console.log('x: '+dalek.position.x+' y: '+dalek.position.z);
+            dalek.rotation.y += vDalek;
+
             
             controls.update( Date.now() - time );
 
