@@ -2,7 +2,9 @@ function dalekC(scene){
 	this.scene = scene;
 }
 
-dalekC.prototype.manage = function(){
+dalekC.prototype.manage = function(dalek){
+
+	
 
 	var onKeyDown = function ( event ) {
 

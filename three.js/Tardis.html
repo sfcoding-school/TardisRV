@@ -41,7 +41,7 @@
         var manopolaAnimation2;
         var loadV, loadV2;
         var line;
-             var dalek;
+        var dalek;
 
         initPointLock(blocker, instructions);
 
@@ -167,14 +167,12 @@
             //END WALL
 
              //DALEK
-       
             importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
                 controls.addMesh(object);
                 dalek=object;
-                //object.material.emissive.setHex( 0xffffff );
+                scene.remove(object);
             });
             
-
             importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
                     //console.log('callBack');
                     object.rotateOnAxis( new THREE.Vector3(1,0,-0.45).normalize(), 0.4 );
@@ -296,9 +294,7 @@
             //spotlight.shadowCameraFov = 100;
             // must enable shadow casting ability for the light
             spotlight.castShadow = true;
-            scene.add(spotlight);
-
-           
+            scene.add(spotlight);   
 
             ///VIDEO 
             loadV = new video(scene);
@@ -363,7 +359,7 @@
             //FINE LANCETTE
 
             var dlk = new dalekC(scene);
-            dlk.manage();
+            dlk.manage(dalek);
         }
 
         function onWindowResize() {
@@ -383,9 +379,6 @@
 
             loadV.update();
             loadV2.update();
-
-            //dalek
-            dalek.rotation.y+=0.01;
             
             controls.update( Date.now() - time );
 
