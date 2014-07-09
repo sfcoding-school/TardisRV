@@ -18,3 +18,6 @@ or double click in windows
 
 **Contribute**
 *lucarin91* *ulisse91*
+
+**Disclaimer**
+[New Dalek Paradigm](http://www.turbosquid.com/3d-models/free-obj-model-daleks-new-paradigm/684318) by glupor

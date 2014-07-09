@@ -41,6 +41,7 @@
         var manopolaAnimation2;
         var loadV, loadV2;
         var line;
+             var dalek;
 
         initPointLock(blocker, instructions);
 
@@ -69,7 +70,7 @@
 
             //floor
             var plane = new THREE.Mesh(
-                new THREE.PlaneGeometry(1000, 1000, 100, 100),
+                new THREE.PlaneGeometry(1500, 1500, 100, 100),
                 new THREE.MeshLambertMaterial({color: 0xc0c0c0})
                 );
             plane.rotation.x = -Math.PI / 2;
@@ -159,13 +160,19 @@
             });
 
             //WALL
-            var importer1 = new blenderImporter(scene); 
-            importer1.import('muro.js', 100, [0,0,0], [0,0,0], function(geometry, object){
+            importer.import('muro.js', 100, [0,0,0], [0,0,0], function(geometry, object){
                 controls.addMesh(object);
-                object.material.emissive.setHex( 0xffffff );
+                //object.material.emissive.setHex( 0xffffff );
             });
-
             //END WALL
+
+             //DALEK
+       
+            importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
+                controls.addMesh(object);
+                dalek=object;
+                //object.material.emissive.setHex( 0xffffff );
+            });
             
 
             importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
@@ -244,29 +251,48 @@
 
             var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
             spotlight.position.set(0,500,0);
-            spotlight.shadowCameraVisible = true;
+            //spotlight.shadowCameraVisible = true;
             //spotlight.shadowDarkness = 0.25;
-            spotlight.intensity = 1;
+            spotlight.intensity = 0.8;
             //spotlight.shadowCameraFov = 100;
             // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);
 
-            spotlight = new THREE.DirectionalLight( 0xffffff, 1.5 );
-            spotlight.position.set(300,300,300);
-            spotlight.shadowCameraVisible = true;
+            var puntamelo = new THREE.Object3D();
+            puntamelo.position.set(0,1000,0);
+
+            spotlight = new THREE.DirectionalLight( 0x8800ff);
+            spotlight.position.set(0,400,0);
+            //spotlight.shadowCameraVisible = true;
             //spotlight.shadowDarkness = 0.25;
-            spotlight.intensity = 0.2;
+            spotlight.target = puntamelo;
+            spotlight.intensity = 1.5;
             //spotlight.shadowCameraFov = 100;
             // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);
 
-            spotlight = new THREE.DirectionalLight( 0xffffff, 1.5 );
-            spotlight.position.set(-300, 300,-300);
-            spotlight.shadowCameraVisible = true;
+            puntamelo = new THREE.Object3D();
+            puntamelo.position.set(0,250,0);
+
+            spotlight = new THREE.DirectionalLight( 0xffffff);
+            spotlight.position.set(400,300,400);
+            //spotlight.shadowCameraVisible = true;
+            spotlight.target = puntamelo;
             //spotlight.shadowDarkness = 0.25;
-            spotlight.intensity = 0.2;
+            spotlight.intensity = 0.3;
+            //spotlight.shadowCameraFov = 100;
+            // must enable shadow casting ability for the light
+            spotlight.castShadow = true;
+            scene.add(spotlight);
+
+            spotlight = new THREE.DirectionalLight( 0xffffff);
+            spotlight.position.set(-400, 300,-400);
+            //spotlight.shadowCameraVisible = true;
+            //spotlight.shadowDarkness = 0.25;
+            spotlight.target = puntamelo;
+            spotlight.intensity = 0.3;
             //spotlight.shadowCameraFov = 100;
             // must enable shadow casting ability for the light
             spotlight.castShadow = true;
@@ -357,6 +383,9 @@
 
             loadV.update();
             loadV2.update();
+
+            //dalek
+            dalek.rotation.y+=0.01;
             
             controls.update( Date.now() - time );
 
