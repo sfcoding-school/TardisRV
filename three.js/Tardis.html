@@ -40,6 +40,7 @@
         var manopolaAnimation2;
         var loadV, loadV2;
         var line;
+             var dalek;
 
         initPointLock(blocker, instructions);
 
@@ -158,13 +159,19 @@
             });
 
             //WALL
-            var importer1 = new blenderImporter(scene); 
-            importer1.import('muro.js', 100, [0,0,0], [0,0,0], function(geometry, object){
+            importer.import('muro.js', 100, [0,0,0], [0,0,0], function(geometry, object){
                 controls.addMesh(object);
                 //object.material.emissive.setHex( 0xffffff );
             });
-
             //END WALL
+
+             //DALEK
+       
+            importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
+                controls.addMesh(object);
+                dalek=object;
+                //object.material.emissive.setHex( 0xffffff );
+            });
             
 
             importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
@@ -374,6 +381,9 @@
 
             loadV.update();
             loadV2.update();
+
+            //dalek
+            dalek.rotation.y+=0.01;
             
             controls.update( Date.now() - time );
 
