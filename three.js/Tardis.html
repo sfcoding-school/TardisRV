@@ -42,6 +42,8 @@
         var loadV, loadV2;
         var line;
         var dalek;
+        var dalekC;
+        var rDalek = 0;
 
         initPointLock(blocker, instructions);
 
@@ -99,20 +101,7 @@
             schermo2.rotation.z = Math.PI / 2 + Math.PI / 6; //Math.PI / 5 - Math.PI / 25;
             schermo2.rotation.y = Math.PI / 32;
             schermo2.receiveShadow = true;
-            scene.add(schermo2);          
-
-            /*
-            schermo3 = new THREE.Mesh(
-                new THREE.CylinderGeometry(3, 3, 30, 100, 100, false),//new THREE.PlaneGeometry(30, 5, 100, 100),
-                new THREE.MeshLambertMaterial({color: 0xCD0000, side: THREE.BackSide})
-            );
-            schermo3.position.set(34, 157, -49);
-            schermo3.rotation.x = Math.PI / 2;//Math.PI / 2 - Math.PI / 9;
-            schermo3.rotation.y = 0; //-Math.PI / 20;
-            schermo3.rotation.z = Math.PI / 2 + Math.PI / 6; //Math.PI / 8 + Math.PI / 35;
-            schermo3.receiveShadow = true;
-            scene.add(schermo3);  
-            */
+            scene.add(schermo2);
 
             //cilindri energetici
             cylinder1 = new THREE.Mesh(
@@ -153,6 +142,7 @@
                         
 
             var importer = new blenderImporter(scene);
+
             
             importer.import('tardis.js', 50, [0,0,0], [0,0,0], function(geometry, object){
                 //console.log('callBack');
@@ -165,12 +155,16 @@
                 //object.material.emissive.setHex( 0xffffff );
             });
             //END WALL
+            
 
              //DALEK
             importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
                 controls.addMesh(object);
+                object.rotation.y += Math.PI/2;
+
                 dalek=object;
-                scene.remove(object);
+
+                removeEntity(object);
             });
             
             importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
@@ -191,14 +185,6 @@
                         if(a == 3){
                             schermo2.material.color.setHex( 0x800000 );
                         }
-                        /*
-                        if(a == 4){
-                            schermo3.material.emissive.setHex( 0xff0000 );
-                        }
-                        if(a == 5){
-                            schermo3.material.emissive.setHex( 0x800000 );
-                        }
-                        */
                         
                     }, function(){
                         schermo1.material.color.setHex( 0x800000 );
@@ -249,11 +235,7 @@
 
             var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
             spotlight.position.set(0,500,0);
-            //spotlight.shadowCameraVisible = true;
-            //spotlight.shadowDarkness = 0.25;
             spotlight.intensity = 0.8;
-            //spotlight.shadowCameraFov = 100;
-            // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);
 
@@ -262,12 +244,8 @@
 
             spotlight = new THREE.DirectionalLight( 0x8800ff);
             spotlight.position.set(0,400,0);
-            //spotlight.shadowCameraVisible = true;
-            //spotlight.shadowDarkness = 0.25;
             spotlight.target = puntamelo;
             spotlight.intensity = 1.5;
-            //spotlight.shadowCameraFov = 100;
-            // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);
 
@@ -276,23 +254,15 @@
 
             spotlight = new THREE.DirectionalLight( 0xffffff);
             spotlight.position.set(400,300,400);
-            //spotlight.shadowCameraVisible = true;
             spotlight.target = puntamelo;
-            //spotlight.shadowDarkness = 0.25;
             spotlight.intensity = 0.3;
-            //spotlight.shadowCameraFov = 100;
-            // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);
 
             spotlight = new THREE.DirectionalLight( 0xffffff);
             spotlight.position.set(-400, 300,-400);
-            //spotlight.shadowCameraVisible = true;
-            //spotlight.shadowDarkness = 0.25;
             spotlight.target = puntamelo;
             spotlight.intensity = 0.3;
-            //spotlight.shadowCameraFov = 100;
-            // must enable shadow casting ability for the light
             spotlight.castShadow = true;
             scene.add(spotlight);   
 
@@ -358,8 +328,14 @@
             scene.add(line);
             //FINE LANCETTE
 
-            var dlk = new dalekC(scene);
-            dlk.manage(dalek);
+            //DALEK
+            setInterval(function() {
+                rDalek = Math.floor(Math.random() * 450) + 180;
+            }, 10000);
+
+            dalekC = new Dalek(scene, rDalek, dalek);
+            dalekC.manage();
+
         }
 
         function onWindowResize() {
@@ -379,12 +355,18 @@
 
             loadV.update();
             loadV2.update();
+
+            dalekC.update();
             
             controls.update( Date.now() - time );
 
             renderer.render( scene, camera );
 
             time = Date.now();
+        }
+
+        function removeEntity(object) {
+            scene.remove( object );
         }
     </script>
 </body>
