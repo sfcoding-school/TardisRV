@@ -113,11 +113,13 @@ THREE.PointerLockControls = function ( camera ) {
 
 	};
 
-	this.isOnObject = function ( boolean ) {
+	this.resetCamera = function () {
+		yawObject.position.set(0,0,0);
+	};
 
+	this.isOnObject = function ( boolean ) {
 		isOnObject = boolean;
 		canJump = boolean;
-
 	};
 
 	this.getDirection = function() {

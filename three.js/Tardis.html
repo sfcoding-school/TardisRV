@@ -9,10 +9,13 @@
     <script src="http://127.0.0.1:8080/js/MovementControl.js"></script>
     <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
     <script src="http://127.0.0.1:8080/js/ManopolaAnimation.js"></script>
+    <script src="http://127.0.0.1:8080/js/PorteAnimation.js"></script>
     <script src="http://127.0.0.1:8080/js/Clickable.js"></script>
     <script src="http://127.0.0.1:8080/js/video.js"></script>
     <script src="http://127.0.0.1:8080/js/debugAxes.js"></script>
     <script src="http://127.0.0.1:8080/js/Dalek.js"></script>
+    <script src="http://127.0.0.1:8080/js/Interno.js"></script>
+    <script src="http://127.0.0.1:8080/js/Esterno.js"></script>
 
     <!-- CSS -->
     <link href="http://127.0.0.1:8080/style/tardis.css" rel="stylesheet" type="text/css">
@@ -28,10 +31,11 @@
       
     <script>
 
-        var camera, scene, renderer;
+        var camera, scene, sceneEsterno, renderer;
         var geometry, material, mesh;
         var controls ,time = Date.now();
         var ray;
+        var clickable;
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
         var cylinder1, cylinder2, cylinder3, cylinder4; 
@@ -44,246 +48,30 @@
         var dalek;
         var dalekC;
 
+        var obEsterno, obInterno;
+        var interno = false;
+
         initPointLock(blocker, instructions);
 
         init();
-
         animate();
 
-        function init() {
-
+        function init(){
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-            //camera.applyMatrix( new THREE.Matrix4().makeTranslation(400, 400, 400) );
-
+            
             scene = new THREE.Scene();
-
+            
             controls = new THREE.PointerLockControls( camera );
 
             /** CLICKABLE **/
-            var clickable = new Clickable(controls); //instazio la classe clickable passandogli la variabile legata a PointerLockControls
+            clickable = new Clickable(controls); //instazio la classe clickable passandogli la variabile legata a PointerLockControls
             document.addEventListener( 'mousedown', clickable.onDocumentMouseDown, false ); // aggiungo l'evento mousedown
             /*******/
 
             scene.add( controls.getObject() );
 
             ray = new THREE.Raycaster();
-                ray.ray.direction.set( 0, -1, 0 );
-
-            //floor
-            var plane = new THREE.Mesh(
-                new THREE.PlaneGeometry(1500, 1500, 100, 100),
-                new THREE.MeshLambertMaterial({color: 0xc0c0c0})
-                );
-            plane.rotation.x = -Math.PI / 2;
-            plane.position.y = 0;
-            plane.receiveShadow = true;
-            scene.add(plane);
-
-            //SHERMI PICCOLI
-            schermo1 = new THREE.Mesh(
-                new THREE.CylinderGeometry(3, 3, 30, 100, 100, false), //new THREE.PlaneGeometry(5, 30, 100, 100),
-                new THREE.MeshPhongMaterial({color: 0x800000})
-                );
-            schermo1.rotation.x = -Math.PI / 2;
-            schermo1.position.set(60, 155, 4);
-            schermo1.rotation.y = Math.PI / 9;
-            schermo1.receiveShadow = false;
-            scene.add(schermo1);  
-            
-
-            schermo2 = new THREE.Mesh(
-                new THREE.CylinderGeometry(3, 3, 30, 100, 100, false),//new THREE.PlaneGeometry(30, 5, 100, 100),
-                new THREE.MeshLambertMaterial({color: 0xCD0000})
-            );
-            schermo2.rotation.x = -Math.PI / 2 + Math.PI / 16;
-            schermo2.position.set(30, 156.8, 53.5);
-            schermo2.rotation.z = Math.PI / 2 + Math.PI / 6; //Math.PI / 5 - Math.PI / 25;
-            schermo2.rotation.y = Math.PI / 32;
-            schermo2.receiveShadow = true;
-            scene.add(schermo2);
-
-            //cilindri energetici
-            cylinder1 = new THREE.Mesh(
-                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xCD0000})
-            );
-            cylinder1.receiveShadow = true;
-            cylinder1.overdraw = true;
-            cylinder1.position.set(-15,185,-15);
-            scene.add(cylinder1);
-            
-            cylinder2 = new THREE.Mesh(
-                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xCD0000} )
-                );
-            cylinder2.receiveShadow = true;
-            cylinder2.overdraw = true;
-            cylinder2.position.set(15,185,-15);
-            scene.add(cylinder2);
-
-            cylinder3 = new THREE.Mesh(
-                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xCD0000})
-                );
-            cylinder3.receiveShadow = true;
-            cylinder3.overdraw = true;
-            cylinder3.position.set(15,185,15);
-            scene.add(cylinder3);
-            
-            cylinder4 = new THREE.Mesh(
-                new THREE.CylinderGeometry(8, 8, 60, 100, 100, false),
-                new THREE.MeshLambertMaterial({color: 0xCD0000})
-                );
-            cylinder4.receiveShadow = true;
-            cylinder4.overdraw = true;
-            cylinder4.position.set(-15,185,15);
-            scene.add(cylinder4);
-                        
-
-            var importer = new blenderImporter(scene);
-
-            
-            importer.import('tardis.js', 50, [0,0,0], [0,0,0], function(geometry, object){
-                //console.log('callBack');
-                controls.addMesh(object);
-            });
-
-            //WALL
-            importer.import('muro.js', 100, [0,0,0], [0,0,0], function(geometry, object){
-                controls.addMesh(object);
-                //object.material.emissive.setHex( 0xffffff );
-            });
-            //END WALL
-            
-            //DALEK
-            importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
-                controls.addMesh(object);
-                object.rotation.y += Math.PI/2;
-
-                dalekC = new Dalek(scene, object);
-                dalekC.manage();
-
-                removeEntity(object);
-            });
-            
-            importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
-                    //console.log('callBack');
-                    object.rotateOnAxis( new THREE.Vector3(1,0,-0.45).normalize(), 0.4 );
-                    manopolaAnimation2 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.45), function(){
-                        var a = Math.floor((Math.random()*100)+1)%4;
-                        
-                        if(a === 0){
-                            schermo1.material.color.setHex(0xff0000);
-                        }
-                        if(a == 1){
-                            schermo1.material.color.setHex( 0x800000 );
-                        }
-                        if(a == 2){
-                            schermo2.material.color.setHex( 0xff0000 );
-                        }
-                        if(a == 3){
-                            schermo2.material.color.setHex( 0x800000 );
-                        }
-                        
-                    }, function(){
-                        schermo1.material.color.setHex( 0x800000 );
-                        schermo2.material.color.setHex( 0x800000 );
-                        //schermo3.material.emissive.setHex( 0x800000 );
-                    });
-                    clickable.addCMesh(new Array(object, manopolaAnimation2));      
-                });
-
-            importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
-                    //console.log('callBack');
-                    object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
-                    manopolaAnimation1 = new ManopolaAnimation(object, new THREE.Vector3(1,0,-0.70), function (){
-                        var a = Math.floor((Math.random()*100)+1)%8;
-                        if(a === 0){
-                            cylinder1.material.emissive.setHex( 0xff0000 );
-                        }
-                        if(a == 1){
-                            cylinder1.material.emissive.setHex( 0x8B0000 );
-                        }
-                        if(a == 2){
-                            cylinder2.material.emissive.setHex( 0xff0000 );
-                        }
-                        if(a == 3){
-                            cylinder2.material.emissive.setHex( 0x8B0000 );
-                        }
-                        if(a == 4){
-                            cylinder3.material.emissive.setHex( 0xff0000 );
-                        }
-                        if(a == 5){
-                            cylinder3.material.emissive.setHex( 0x8B0000 );
-                        }
-                        if(a == 6){
-                            cylinder4.material.emissive.setHex( 0xff0000 );
-                        }
-                        if(a == 7){
-                            cylinder4.material.emissive.setHex( 0x8B0000 );
-                        }
-                    }, function(){
-                        cylinder1.material.emissive.setHex( 0x8B0000 );
-                        cylinder2.material.emissive.setHex( 0x8B0000 );
-                        cylinder3.material.emissive.setHex( 0x8B0000 );
-                        cylinder4.material.emissive.setHex( 0x8B0000 );
-                        });
-                    //manapolaAnimation.startAni();
-                    clickable.addCMesh(new Array(object, manopolaAnimation1));
-                });
-
-            var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
-            spotlight.position.set(0,500,0);
-            spotlight.intensity = 0.8;
-            spotlight.castShadow = true;
-            scene.add(spotlight);
-
-            var puntamelo = new THREE.Object3D();
-            puntamelo.position.set(0,1000,0);
-
-            spotlight = new THREE.DirectionalLight( 0x8800ff);
-            spotlight.position.set(0,400,0);
-            spotlight.target = puntamelo;
-            spotlight.intensity = 1.5;
-            spotlight.castShadow = true;
-            scene.add(spotlight);
-
-            puntamelo = new THREE.Object3D();
-            puntamelo.position.set(0,250,0);
-
-            spotlight = new THREE.DirectionalLight( 0xffffff);
-            spotlight.position.set(400,300,400);
-            spotlight.target = puntamelo;
-            spotlight.intensity = 0.3;
-            spotlight.castShadow = true;
-            scene.add(spotlight);
-
-            spotlight = new THREE.DirectionalLight( 0xffffff);
-            spotlight.position.set(-400, 300,-400);
-            spotlight.target = puntamelo;
-            spotlight.intensity = 0.3;
-            spotlight.castShadow = true;
-            scene.add(spotlight);   
-
-            ///VIDEO 
-            loadV = new video(scene);
-            loadV.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 30, function(movieScreen){
-                movieScreen.position.set(-100, 142, -5);
-                movieScreen.rotation.x = -Math.PI / 2;
-                movieScreen.rotation.y = -Math.PI / 8;
-                movieScreen.rotation.z = -Math.PI / 2;
-            }, false);
-
-            loadV2 = new video(scene);
-            loadV2.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 12, function(movieScreen){
-                movieScreen.position.set(-42, 160, 80);
-                movieScreen.rotation.x = - Math.PI / 16;
-                movieScreen.rotation.y = - Math.PI / 8 - Math.PI / 16;
-                movieScreen.rotation.z = - Math.PI / 32;
-
-                //movieScreen.rotateOnAxis(new THREE.Vector3( -1, 0, -0.3 ).normalize(), Math.PI / 16 + Math.PI / 32);
-
-            }, true);
+            ray.ray.direction.set( 0, -1, 0 );
 
             //DEBUG-Axes
             axes = buildAxes( 1000 );
@@ -296,39 +84,13 @@
 
             window.addEventListener( 'resize', onWindowResize, false );
 
-            var primaVolta = true;
-
-            //LANCETTE (DA DECIDERE SE TENERE)
-            var material = new THREE.LineBasicMaterial({
-                color: 0xff0000,
-                linewidth: 2
-            });
-
-            var geometry = new THREE.Geometry();
-            geometry.vertices.push(new THREE.Vector3(6, 0, 0));
-            geometry.vertices.push(new THREE.Vector3(0, 6, 0));
-
-
-            line = new THREE.Line(geometry, material);
-            line.position.set(24, 143, -85);
-            line.rotation.y = Math.PI / 3;
-
-            scene.add(line);
-
-            var geometry2 = new THREE.Geometry();
-            geometry2.vertices.push(new THREE.Vector3(6, 0, 0));
-            geometry2.vertices.push(new THREE.Vector3(0, 6, 0));
-
-
-            line = new THREE.Line(geometry2, material);
-            line.position.set(65, 143, -62);
-            line.rotation.y = Math.PI / 3;
-
-            scene.add(line);
-            //FINE LANCETTE
-
+            initEsterno();
+            scene.add(obEsterno);
+            //initInterno();
+            //scene.add(obInterno);
+            //interno=true;
         }
-
+        
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -338,27 +100,25 @@
         function animate() {
             requestAnimationFrame( animate );
                     
-            manopolaAnimation1.update();
-            manopolaAnimation2.update();
-
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
 
-            loadV.update();
-            loadV2.update();
-
-            dalekC.update();
-            
             controls.update( Date.now() - time );
 
             renderer.render( scene, camera );
 
             time = Date.now();
+
+            if (interno)
+                animateInterno();
+            else
+                animateEsterno();
         }
 
         function removeEntity(object) {
             scene.remove( object );
         }
+
     </script>
 </body>
 </html>
