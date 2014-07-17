@@ -109,10 +109,27 @@
 
             time = Date.now();
 
+            console.log('x '+controls.getObject().position.x);
+            console.log('y '+controls.getObject().position.y);
+            console.log('z '+controls.getObject().position.z);
+
             if (interno)
                 animateInterno();
-            else
+            else{
                 animateEsterno();
+                if (controls.getObject().position.x < 50 &&
+                    controls.getObject().position.x > -50 &&
+                    controls.getObject().position.z < 50 &&
+                    controls.getObject().position.z > -50){
+                        console.log('sto a 0,0,0');
+                        initInterno();
+                        scene.remove(obEsterno);
+                        scene.add(obInterno);
+                        interno = true;
+                        controls.getObject().position.z = -200;
+                }
+
+            }
         }
 
         function removeEntity(object) {

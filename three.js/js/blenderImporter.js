@@ -22,11 +22,11 @@ blenderImporter.prototype.import = function(fileName, scale, positionVector, rot
         object.position.z = positionVector[2];
         object.castShadow = true;
         object.receiveShadow = true;
- 		object.name = fileName;
+        object.name = fileName;
 
 		console.log(object);
         //this.scene.add(object);
 
         callBack(geometry, object);  
     }); 
-}
+};
