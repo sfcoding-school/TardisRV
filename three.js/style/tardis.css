@@ -48,3 +48,8 @@ body {
     cursor: pointer;
 
 }
+
+#spanTitolo {
+    line-height:100px;
+    font-size:1000%;
+}
