@@ -25,7 +25,8 @@ THREE.PointerLockControls = function ( camera ) {
 	var wireMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe:false } );
     yawObject = new THREE.Mesh( cubeGeometry, wireMaterial );
     yawObject.add( pitchObject );
-	yawObject.position.set(0, 200, -250);
+	yawObject.position.set(0, 200, -800);
+    yawObject.rotation.y = Math.PI;
 
 	var moveForward = false;
 	var moveBackward = false;

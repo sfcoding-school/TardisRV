@@ -5,6 +5,7 @@ var delta=0.01;
 
 function initEsterno(){
     obEsterno = new THREE.Object3D();
+    obEsterno.position.z = -500;
 
     //floor
     var plane = new THREE.Mesh(
@@ -18,7 +19,7 @@ function initEsterno(){
 
     var importer = new blenderImporter(scene);
 
-    importer.import('cabina.js', 80, [0,0,0], [0,0,0], function(geometry, object){
+    importer.import('cabina.js', 80, [0,0,0], [0,Math.PI,0], function(geometry, object){
         console.log('callBack');
         controls.addMesh(object);
         /*clickable.addCMesh(new Array(object, function(){
@@ -31,8 +32,8 @@ function initEsterno(){
         obEsterno.add(object);
     });
 
-    importer.import('cabina-porta-sx.js', 70, [-70,5,82], [0,0,0], function(geometry, object1){
-        importer.import('cabina-porta-dx.js', 70, [70,5,82], [0,0,0], function(geometry, object2){
+    importer.import('cabina-porta-sx.js', 70, [70,5,-82], [0,Math.PI,0], function(geometry, object1){
+        importer.import('cabina-porta-dx.js', 70, [-70,5,-82], [0,Math.PI,0], function(geometry, object2){
             console.log('callBack');
             porteAnimation = new PorteAnimation(object1, object2, new THREE.Vector3(0,1,0), function(){
                 obEsterno.add(smoke);
@@ -52,7 +53,7 @@ function initEsterno(){
     });
 
     smokeParticles = new THREE.Geometry();
-    for (var i = 0; i < 1500; i++) {
+    for (var i = 0; i < 500; i++) {
         var particle = new THREE.Vector3(generateRandom(), Math.random() * 300, generateRandom() );
         smokeParticles.vertices.push(particle);
     }
@@ -62,7 +63,7 @@ function initEsterno(){
 
     smoke = new THREE.ParticleSystem(smokeParticles, smokeMaterial);
     smoke.sortParticles = true;
-    smoke.position.z = 100;
+    smoke.position.z = -100;
  
     
 

@@ -87,6 +87,7 @@
             window.addEventListener( 'resize', onWindowResize, false );
 
             initEsterno();
+            initInterno();
             scene.add(obEsterno);
             //initInterno();
             //scene.add(obInterno);
@@ -119,23 +120,19 @@
                 animateInterno();
             else{
                 animateEsterno();
-                if (controls.getObject().position.x < 50 &&
-                    controls.getObject().position.x > -50 &&
-                    controls.getObject().position.z < 50 &&
-                    controls.getObject().position.z > -50){
-                        console.log('sto a 0,0,0');
-                        initInterno();
+            }
+
+            if (controls.getObject().position.x < 50 &&
+                controls.getObject().position.x > -50 &&
+                controls.getObject().position.z > -550 &&
+                controls.getObject().position.z < -450){
+                    if (!interno){
+                        //initInterno();
                         scene.remove(obEsterno);
                         scene.add(obInterno);
                         interno = true;
-                        controls.getObject().position.z = -200;
-                }
-
+                    }
             }
-        }
-
-        function removeEntity(object) {
-            scene.remove( object );
         }
 
     </script>

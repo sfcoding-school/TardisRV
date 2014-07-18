@@ -1,5 +1,6 @@
 function initInterno() {
     obInterno = new THREE.Object3D();
+
     //floor
     var plane = new THREE.Mesh(
         new THREE.PlaneGeometry(1500, 1500, 100, 100),
@@ -91,10 +92,8 @@ function initInterno() {
         controls.addMesh(object);
         object.rotation.y += Math.PI/2;
 
-        dalekC = new Dalek(scene, object);
+        dalekC = new Dalek(obInterno, object);
         dalekC.manage();
-        obInterno.add( object );
-        removeEntity(object);
     });
     
     importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
