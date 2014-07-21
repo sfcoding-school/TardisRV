@@ -47,15 +47,36 @@ body {
 
     cursor: pointer;
 
+    background: rgba(225, 225, 225, .8)
+
 }
 
 #spanTitolo {
     line-height:100px;
     font-size:1000%;
+    padding-top: 25px;
+    padding-bottom: 50px;
 }
 
 #loading {
     left: 45%;
     top: 50%;
     position: absolute;
+}
+    
+#fraseCentrale {
+    padding-top: 20px;
+    padding-bottom: 15px;
+    font-size:400%;
+    font-family: 'DoctorWhoFont';
+}
+
+img {
+    width: 660px; 
+    height: 360px;
+}
+
+@font-face {
+    font-family: 'DoctorWhoFont'; 
+    src: url('http://127.0.0.1:8080/style/font.tff');
 }

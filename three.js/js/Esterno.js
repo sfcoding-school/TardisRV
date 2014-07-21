@@ -18,10 +18,12 @@ function initEsterno(){
     obEsterno.add(plane);                        
 
     //var geometry = new THREE.SphereGeometry( 2000, 40, 60 );
+
+    
     var geometry = new THREE.CylinderGeometry( 2000, 2000, 4000, 40, 5, true );
     geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
     var material = new THREE.MeshBasicMaterial( {
-        map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/modelli/westminster-abbey.jpg" )
+        map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/modelli/london2.jpg" )
         });
     mesh = new THREE.Mesh( geometry, material );
     mesh.position.y = 1500;
@@ -33,13 +35,7 @@ function initEsterno(){
     importer.import('cabina.js', 80, [0,0,0], [0,Math.PI,0], function(geometry, object){
         console.log('callBack');
         controls.addMesh(object);
-        /*clickable.addCMesh(new Array(object, function(){
-            console.log("prova");
-            initInterno();
-            scene.remove(obEsterno);
-            scene.add(obInterno);
-            interno = true;
-        }, false)); */
+       
         obEsterno.add(object);
         pointLock.removeElementLoading();
     });
@@ -80,7 +76,6 @@ function initEsterno(){
     smoke.position.z = -100;
  
     
-
     
 /*
     var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
@@ -141,4 +136,26 @@ function animateEsterno() {
 
 function generateRandom(){
     return Math.random() * 120 - 60;
+}
+
+function processSVData(data, status) {
+  if (status == google.maps.StreetViewStatus.OK) {
+    var marker = new google.maps.Marker({
+      position: data.location.latLng,
+      map: map,
+      title: data.location.description
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+
+      var markerPanoID = data.location.pano;
+      // Set the Pano to use the passed panoID
+      panorama.setPano(markerPanoID);
+      panorama.setPov({
+        heading: 270,
+        pitch: 0
+      });
+      panorama.setVisible(true);
+    });
+  }
 }
