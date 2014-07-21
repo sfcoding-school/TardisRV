@@ -9,7 +9,7 @@ function initEsterno(){
 
     //floor
     var plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1500, 1500, 100, 100),
+        new THREE.PlaneGeometry(4000, 4000, 100, 100),
         new THREE.MeshLambertMaterial({color: 0xc0c0c0})
         );
     plane.rotation.x = -Math.PI / 2;
@@ -24,11 +24,12 @@ function initEsterno(){
         map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/modelli/westminster-abbey.jpg" )
         });
     mesh = new THREE.Mesh( geometry, material );
-    mesh.position.y = 1000;
+    mesh.position.y = 1500;
     obEsterno.add(mesh);
 
     var importer = new blenderImporter(scene);
 
+    pointLock.addElementLoading();
     importer.import('cabina.js', 80, [0,0,0], [0,Math.PI,0], function(geometry, object){
         console.log('callBack');
         controls.addMesh(object);
@@ -40,8 +41,10 @@ function initEsterno(){
             interno = true;
         }, false)); */
         obEsterno.add(object);
+        pointLock.removeElementLoading();
     });
 
+    pointLock.addElementLoading();
     importer.import('cabina-porta-sx.js', 70, [70,5,-82], [0,Math.PI,0], function(geometry, object1){
         importer.import('cabina-porta-dx.js', 70, [-70,5,-82], [0,Math.PI,0], function(geometry, object2){
             console.log('callBack');
@@ -55,6 +58,7 @@ function initEsterno(){
             obEsterno.add(object2);
 
             clickable.addCMesh(new Array(object1, porteAnimation , true));
+            pointLock.removeElementLoading();
         });
         console.log('callBack');
         controls.addMesh(object1);

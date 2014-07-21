@@ -5,7 +5,7 @@
     <script src="http://127.0.0.1:8080/js/three.js"></script>
 
     <!--moduli-->
-    <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
+    <script src="http://127.0.0.1:8080/js/PointLock.js"></script>    
     <script src="http://127.0.0.1:8080/js/MovementControl.js"></script>
     <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
     <script src="http://127.0.0.1:8080/js/ManopolaAnimation.js"></script>
@@ -53,7 +53,7 @@
         var obEsterno, obInterno;
         var interno = false;
 
-        initPointLock(blocker, instructions);
+        var pointLock = new PointLock(blocker, instructions);
 
         init();
         animate();
@@ -112,9 +112,9 @@
 
             time = Date.now();
 
-            console.log('x '+controls.getObject().position.x);
-            console.log('y '+controls.getObject().position.y);
-            console.log('z '+controls.getObject().position.z);
+            //console.log('x '+controls.getObject().position.x);
+            //console.log('y '+controls.getObject().position.y);
+            //console.log('z '+controls.getObject().position.z);
 
             if (interno)
                 animateInterno();

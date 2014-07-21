@@ -53,3 +53,9 @@ body {
     line-height:100px;
     font-size:1000%;
 }
+
+#loading {
+    left: 45%;
+    top: 50%;
+    position: absolute;
+}
