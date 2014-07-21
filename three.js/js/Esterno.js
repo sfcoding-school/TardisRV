@@ -17,6 +17,16 @@ function initEsterno(){
     plane.receiveShadow = true;
     obEsterno.add(plane);                        
 
+    //var geometry = new THREE.SphereGeometry( 2000, 40, 60 );
+    var geometry = new THREE.CylinderGeometry( 2000, 2000, 4000, 40, 5, true );
+    geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+    var material = new THREE.MeshBasicMaterial( {
+        map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/modelli/westminster-abbey.jpg" )
+        });
+    mesh = new THREE.Mesh( geometry, material );
+    mesh.position.y = 1000;
+    obEsterno.add(mesh);
+
     var importer = new blenderImporter(scene);
 
     importer.import('cabina.js', 80, [0,0,0], [0,Math.PI,0], function(geometry, object){
