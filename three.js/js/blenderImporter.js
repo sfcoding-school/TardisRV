@@ -24,7 +24,7 @@ blenderImporter.prototype.import = function(fileName, scale, positionVector, rot
         object.receiveShadow = true;
         object.name = fileName;
 
-		console.log(object);
+		//console.log(object);
         //this.scene.add(object);
 
         callBack(geometry, object);  
