@@ -8,12 +8,12 @@ function initEsterno(){
     obEsterno.position.z = -500;
 
     //floor
-    var floor = new THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/media/floor.jpg" );
-    floor.wrapS = floor.wrapT = THREE.MirroredRepeatWrapping;
-    floor.repeat.set( 512, 512);
+    var floor = new THREE.ImageUtils.loadTexture( "/media/floor.jpg" );
+    floor.wrapS = floor.wrapT = THREE.RepeatWrapping;
+    floor.repeat.set( 4, 4);
     var plane = new THREE.Mesh(
         new THREE.PlaneGeometry(12000, 12000, 512, 512),
-        new THREE.MeshBasicMaterial( { map: floor})
+        new THREE.MeshLambertMaterial( { map: floor})
         );
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = 0;
@@ -26,7 +26,7 @@ function initEsterno(){
     var geometry = new THREE.CylinderGeometry( 6000, 6000, 8000, 40, 5, true );
     geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
     var material = new THREE.MeshBasicMaterial( {
-        map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/media/london3.jpg" )
+        map: THREE.ImageUtils.loadTexture( "/media/london3.jpg" )
         });
     mesh = new THREE.Mesh( geometry, material );
     mesh.position.y = 3600;
@@ -71,7 +71,7 @@ function initEsterno(){
         smokeParticles.vertices.push(particle);
     }
 
-    var smokeTexture = THREE.ImageUtils.loadTexture("http://127.0.0.1:8080/modelli/smoke.png");
+    var smokeTexture = THREE.ImageUtils.loadTexture("/modelli/smoke.png");
     var smokeMaterial = new THREE.ParticleBasicMaterial({ map: smokeTexture, transparent: true, blending: THREE.AdditiveBlending, size: 50, color: 0x111111 });
 
     smoke = new THREE.ParticleSystem(smokeParticles, smokeMaterial);

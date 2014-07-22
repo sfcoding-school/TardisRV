@@ -3,7 +3,7 @@ var countLoading = 0;
 
 function PointLock(instructions, blocker ){
     var img = document.createElement("img");
-    img.setAttribute("src", "http://127.0.0.1:8080/media/loading-bar.gif");
+    img.setAttribute("src", "/media/loading-bar.gif");
     img.setAttribute("id", "loading");
     //elem.setAttribute("width", "1024");
     //elem.setAttribute("alt", "Flower");
