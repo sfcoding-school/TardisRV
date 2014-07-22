@@ -17,7 +17,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.75);
 
 }
 
@@ -45,9 +45,11 @@ body {
     color: #ffffff;
     text-align: center;
 
+    display: table;
+
     cursor: pointer;
 
-    background: rgba(225, 225, 225, .8)
+    /*background: rgba(225, 225, 225, .8)*/
 
 }
 
@@ -58,19 +60,41 @@ body {
     padding-bottom: 50px;
 }
 
+#loading {
+    position: absolute;
+    top: 60%;
+    left: 43%;
+}
+    
 #fraseCentrale {
     padding-top: 20px;
     padding-bottom: 15px;
-    font-size:400%;
-    font-family: 'DoctorWhoFont';
+    font-size:300%;
+    font-family: 'fantasy';
+    top: 80%;
+    margin-top: 2%;
 }
 
-img {
-    width: 660px; 
-    height: 360px;
+#help {
+    font-family: 'arial';
+    margin-top: 10%;
 }
 
-@font-face {
-    font-family: 'DoctorWhoFont'; 
-    src: url('http://127.0.0.1:8080/style/font.tff');
+#clickInizio{
+    font-size:180%;
+    -webkit-animation: pulsate 1.5s ease-out;
+    -webkit-animation-iteration-count: infinite; 
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.8, 0.8);}
+    50% {-webkit-transform: scale(1, 1);}
+    100% {-webkit-transform: scale(0.8, 0.8);}
+}
+
+#logo {
+    width: 460px; 
+    height: 160px;
+    position: relative;
+    margin-top: 5%;
 }

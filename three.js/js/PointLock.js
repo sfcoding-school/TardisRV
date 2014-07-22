@@ -1,5 +1,19 @@
-function initPointLock(instructions, blocker){
+var loadingFinish = false;
+var countLoading = 0;
 
+function PointLock(instructions, blocker ){
+    var img = document.createElement("img");
+    img.setAttribute("src", "/media/loading-bar.gif");
+    img.setAttribute("id", "loading");
+    //elem.setAttribute("width", "1024");
+    //elem.setAttribute("alt", "Flower");
+    var node = instructions.childNodes[3];
+    instructions.insertBefore(img, node);
+    //instructions.appendChild(img);
+    
+    this.instructions = instructions;
+    this.blocker = blocker;
+    
     var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
     if ( havePointerLock ) {
@@ -8,7 +22,7 @@ function initPointLock(instructions, blocker){
 
         var pointerlockchange = function ( event ) {
 
-            if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+            if ( loadingFinish && (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) ) {
 
                 controls.enabled = true;
 
@@ -17,22 +31,21 @@ function initPointLock(instructions, blocker){
             } else {
 
                 controls.enabled = false;
-
+                /*
                 blocker.style.display = '-webkit-box';
                 blocker.style.display = '-moz-box';
-                blocker.style.display = 'box';
+                blocker.style.display = 'box';*/
+                blocker.style.display = 'table';
 
                 instructions.style.display = '';
 
             }
 
-        }
+        };
 
         var pointerlockerror = function ( event ) {
-
             instructions.style.display = '';
-
-        }
+        };
 
         // Hook pointer lock state change events
         document.addEventListener( 'pointerlockchange', pointerlockchange, false );
@@ -54,7 +67,7 @@ function initPointLock(instructions, blocker){
 
                 var fullscreenchange = function ( event ) {
 
-                    if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
+                    if ( loadingFinish && (document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element) ) {
 
                         document.removeEventListener( 'fullscreenchange', fullscreenchange );
                         document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
@@ -62,7 +75,7 @@ function initPointLock(instructions, blocker){
                         element.requestPointerLock();
                     }
 
-                }
+                };
 
                 document.addEventListener( 'fullscreenchange', fullscreenchange, false );
                 document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
@@ -84,4 +97,22 @@ function initPointLock(instructions, blocker){
         instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 
     }
+
 }
+
+
+
+PointLock.prototype.addElementLoading = function(){
+    countLoading++;
+    console.log('add ' + countLoading);
+};
+
+PointLock.prototype.removeElementLoading = function(){
+    countLoading--;
+    console.log('remove ' + countLoading);
+    if (countLoading === 0){
+        loadingFinish = true;
+        this.instructions.removeChild(document.getElementById('loading'));
+        console.log('finito ' + countLoading);
+    }
+};

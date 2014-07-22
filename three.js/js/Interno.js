@@ -73,29 +73,40 @@ function initInterno() {
                 
     var importer = new blenderImporter(scene);
 
+    pointLock.addElementLoading();
     importer.import('tardis.js', 50, [0,0,0], [0,0,0], function(geometry, object){
         //console.log('callBack');
         controls.addMesh(object);
         obInterno.add( object );
+        pointLock.removeElementLoading();
+        console.log('tardis');
     });
 
     //WALL
+    pointLock.addElementLoading();
     importer.import('muro.js', 100, [0,0,0], [0,0,0], function(geometry, object){
         controls.addMesh(object);
         //object.material.emissive.setHex( 0xffffff );
         obInterno.add( object );
+        pointLock.removeElementLoading();
+        console.log('muro');
     });
     //END WALL
     
+    
     //DALEK
+    pointLock.addElementLoading();
     importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
         controls.addMesh(object);
         object.rotation.y += Math.PI/2;
 
         dalekC = new Dalek(obInterno, object);
         dalekC.manage();
+        pointLock.removeElementLoading();
+        console.log('dalek');
     });
-    
+
+    pointLock.addElementLoading();
     importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
         //console.log('callBack');
         object.rotateOnAxis( new THREE.Vector3(1,0,-0.45).normalize(), 0.4 );
@@ -121,9 +132,12 @@ function initInterno() {
             schermo2.material.color.setHex( 0x800000 );
             //schermo3.material.emissive.setHex( 0x800000 );
         });
-        clickable.addCMesh(new Array(object, manopolaAnimation2, true));      
+        clickable.addCMesh(new Array(object, manopolaAnimation2, true));    
+        pointLock.removeElementLoading();  
+        console.log('manopola');
     });
-
+    
+    pointLock.addElementLoading();
     importer.import('manopola.js', 50, [-68,145,-68], [0, -51.788, 0], function(geometry, object){
         //console.log('callBack');
         object.rotateOnAxis( new THREE.Vector3(1,0,-0.70).normalize(), 0.4 );
@@ -162,6 +176,8 @@ function initInterno() {
             });
         //manapolaAnimation.startAni();
         clickable.addCMesh(new Array(object, manopolaAnimation1, true));
+        pointLock.removeElementLoading();
+        console.log('manopola');
     });
 
     var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
@@ -198,23 +214,28 @@ function initInterno() {
     obInterno.add(spotlight);   
 
     ///VIDEO 
-    loadV = new video(scene);
-    loadV.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 30, function(movieScreen){
+    pointLock.addElementLoading();
+    loadV = new video(obInterno);
+    loadV.loadVideo("kideatsdirt.ogv", 30, function(movieScreen){
         movieScreen.position.set(-100, 142, -5);
         movieScreen.rotation.x = -Math.PI / 2;
         movieScreen.rotation.y = -Math.PI / 8;
         movieScreen.rotation.z = -Math.PI / 2;
+        pointLock.removeElementLoading();
+        console.log('video');
     }, false);
 
-    loadV2 = new video(scene);
-    loadV2.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 12, function(movieScreen){
+    pointLock.addElementLoading();
+    loadV2 = new video(obInterno);
+    loadV2.loadVideo("kideatsdirt.ogv", 12, function(movieScreen){
         movieScreen.position.set(-42, 160, 80);
         movieScreen.rotation.x = - Math.PI / 16;
         movieScreen.rotation.y = - Math.PI / 8 - Math.PI / 16;
         movieScreen.rotation.z = - Math.PI / 32;
 
         //movieScreen.rotateOnAxis(new THREE.Vector3( -1, 0, -0.3 ).normalize(), Math.PI / 16 + Math.PI / 32);
-
+        pointLock.removeElementLoading();
+        console.log('video');
     }, true);
 
 

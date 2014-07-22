@@ -2,34 +2,36 @@
 <html>
 <head>
     <!--librerie-->
-    <script src="http://127.0.0.1:8080/js/three.js"></script>
+    <script src="/js/three.js"></script>
 
     <!--moduli-->
-    <script src="http://127.0.0.1:8080/js/initPointLock.js"></script>    
-    <script src="http://127.0.0.1:8080/js/MovementControl.js"></script>
-    <script src="http://127.0.0.1:8080/js/blenderImporter.js"></script>
-    <script src="http://127.0.0.1:8080/js/ManopolaAnimation.js"></script>
-    <script src="http://127.0.0.1:8080/js/PorteAnimation.js"></script>
-    <script src="http://127.0.0.1:8080/js/Clickable.js"></script>
-    <script src="http://127.0.0.1:8080/js/video.js"></script>
-    <script src="http://127.0.0.1:8080/js/debugAxes.js"></script>
-    <script src="http://127.0.0.1:8080/js/Dalek.js"></script>
-    <script src="http://127.0.0.1:8080/js/Interno.js"></script>
-    <script src="http://127.0.0.1:8080/js/Esterno.js"></script>
+    <script src="/js/PointLock.js"></script>    
+    <script src="/js/MovementControl.js"></script>
+    <script src="/js/blenderImporter.js"></script>
+    <script src="/js/ManopolaAnimation.js"></script>
+    <script src="/js/PorteAnimation.js"></script>
+    <script src="/js/Clickable.js"></script>
+    <script src="/js/video.js"></script>
+    <script src="/js/debugAxes.js"></script>
+    <script src="/js/Dalek.js"></script>
+    <script src="/js/Interno.js"></script>
+    <script src="/js/Esterno.js"></script>
 
     <!-- CSS -->
-    <link href="http://127.0.0.1:8080/style/tardis.css" rel="stylesheet" type="text/css">
+    <link href="/style/tardis.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div id="blocker">
         <div id="instructions">
-            <img src="http://127.0.0.1:8080/modelli/logo.png"/>
+            <div id="fraseCentrale">Esame di Linguaggi di Realt&agrave; Virtuale</div>
             <br/>
-            <div id="fraseCentrale">Esame di <br/> Linguaggi di Realt&agrave; Virtuale</div>
-            <br/>      
+            <img id="logo" src="/media/logo-new.png"/>
+            <div id="help">
+                <div id="clickInizio">click per iniziare</div><br/>
+                <span>(w,a,s,d e mouse per muoversi, click sinistro per interagire)</span>
+            </div>      
          </div>
     </div>
-      
     <script>
 
         var camera, scene, sceneEsterno, renderer;
@@ -52,7 +54,7 @@
         var obEsterno, obInterno;
         var interno = false;
 
-        initPointLock(blocker, instructions);
+        var pointLock = new PointLock(instructions, blocker);
 
         init();
         animate();
@@ -80,6 +82,7 @@
 
             renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setClearColor(0x81a1ca,1);
             renderer.shadowMapEnabled = true;
             document.body.appendChild( renderer.domElement );
 
@@ -111,9 +114,9 @@
 
             time = Date.now();
 
-            console.log('x '+controls.getObject().position.x);
-            console.log('y '+controls.getObject().position.y);
-            console.log('z '+controls.getObject().position.z);
+            //console.log('x '+controls.getObject().position.x);
+            //console.log('y '+controls.getObject().position.y);
+            //console.log('z '+controls.getObject().position.z);
 
             if (interno)
                 animateInterno();

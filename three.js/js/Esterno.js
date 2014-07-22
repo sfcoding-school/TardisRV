@@ -8,38 +8,42 @@ function initEsterno(){
     obEsterno.position.z = -500;
 
     //floor
+    var floor = new THREE.ImageUtils.loadTexture( "/media/floor.jpg" );
+    floor.wrapS = floor.wrapT = THREE.RepeatWrapping;
+    floor.repeat.set( 4, 4);
     var plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1500, 1500, 100, 100),
-        new THREE.MeshLambertMaterial({color: 0xc0c0c0})
+        new THREE.PlaneGeometry(12000, 12000, 512, 512),
+        new THREE.MeshLambertMaterial( { map: floor})
         );
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = 0;
-    plane.receiveShadow = true;
+    //plane.receiveShadow = true;
     obEsterno.add(plane);                        
 
     //var geometry = new THREE.SphereGeometry( 2000, 40, 60 );
 
     
-    var geometry = new THREE.CylinderGeometry( 2000, 2000, 4000, 40, 5, true );
+    var geometry = new THREE.CylinderGeometry( 6000, 6000, 8000, 40, 5, true );
     geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
     var material = new THREE.MeshBasicMaterial( {
-        map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/modelli/london2.jpg" )
+        map: THREE.ImageUtils.loadTexture( "/media/london3.jpg" )
         });
     mesh = new THREE.Mesh( geometry, material );
-    mesh.position.y = 1000;
+    mesh.position.y = 3600;
     obEsterno.add(mesh);
 
     var importer = new blenderImporter(scene);
 
-
+    pointLock.addElementLoading();
     importer.import('cabina.js', 80, [0,0,0], [0,Math.PI,0], function(geometry, object){
         console.log('callBack');
         controls.addMesh(object);
        
         obEsterno.add(object);
+        pointLock.removeElementLoading();
     });
 
-
+    pointLock.addElementLoading();
     importer.import('cabina-porta-sx.js', 70, [70,5,-82], [0,Math.PI,0], function(geometry, object1){
         importer.import('cabina-porta-dx.js', 70, [-70,5,-82], [0,Math.PI,0], function(geometry, object2){
             console.log('callBack');
@@ -53,6 +57,7 @@ function initEsterno(){
             obEsterno.add(object2);
 
             clickable.addCMesh(new Array(object1, porteAnimation , true));
+            pointLock.removeElementLoading();
         });
         console.log('callBack');
         controls.addMesh(object1);
@@ -66,7 +71,7 @@ function initEsterno(){
         smokeParticles.vertices.push(particle);
     }
 
-    var smokeTexture = THREE.ImageUtils.loadTexture("http://127.0.0.1:8080/modelli/smoke.png");
+    var smokeTexture = THREE.ImageUtils.loadTexture("/modelli/smoke.png");
     var smokeMaterial = new THREE.ParticleBasicMaterial({ map: smokeTexture, transparent: true, blending: THREE.AdditiveBlending, size: 50, color: 0x111111 });
 
     smoke = new THREE.ParticleSystem(smokeParticles, smokeMaterial);
