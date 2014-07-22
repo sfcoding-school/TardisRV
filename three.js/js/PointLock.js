@@ -7,7 +7,9 @@ function PointLock(instructions, blocker ){
     img.setAttribute("id", "loading");
     //elem.setAttribute("width", "1024");
     //elem.setAttribute("alt", "Flower");
-    instructions.appendChild(img);
+    var node = instructions.childNodes[3];
+    instructions.insertBefore(img, node);
+    //instructions.appendChild(img);
     
     this.instructions = instructions;
     this.blocker = blocker;
@@ -29,10 +31,11 @@ function PointLock(instructions, blocker ){
             } else {
 
                 controls.enabled = false;
-
+                /*
                 blocker.style.display = '-webkit-box';
                 blocker.style.display = '-moz-box';
-                blocker.style.display = 'box';
+                blocker.style.display = 'box';*/
+                blocker.style.display = 'table';
 
                 instructions.style.display = '';
 

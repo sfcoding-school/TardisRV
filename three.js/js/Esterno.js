@@ -8,25 +8,28 @@ function initEsterno(){
     obEsterno.position.z = -500;
 
     //floor
+    var floor = new THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/media/floor.jpg" );
+    floor.wrapS = floor.wrapT = THREE.MirroredRepeatWrapping;
+    floor.repeat.set( 512, 512);
     var plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(4000, 4000, 100, 100),
-        new THREE.MeshLambertMaterial({color: 0xc0c0c0})
+        new THREE.PlaneGeometry(12000, 12000, 512, 512),
+        new THREE.MeshBasicMaterial( { map: floor})
         );
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = 0;
-    plane.receiveShadow = true;
+    //plane.receiveShadow = true;
     obEsterno.add(plane);                        
 
     //var geometry = new THREE.SphereGeometry( 2000, 40, 60 );
 
     
-    var geometry = new THREE.CylinderGeometry( 2000, 2000, 4000, 40, 5, true );
+    var geometry = new THREE.CylinderGeometry( 6000, 6000, 8000, 40, 5, true );
     geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
     var material = new THREE.MeshBasicMaterial( {
-        map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/modelli/london2.jpg" )
+        map: THREE.ImageUtils.loadTexture( "http://127.0.0.1:8080/media/london3.jpg" )
         });
     mesh = new THREE.Mesh( geometry, material );
-    mesh.position.y = 1500;
+    mesh.position.y = 3600;
     obEsterno.add(mesh);
 
     var importer = new blenderImporter(scene);

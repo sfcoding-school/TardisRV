@@ -215,7 +215,7 @@ function initInterno() {
 
     ///VIDEO 
     pointLock.addElementLoading();
-    loadV = new video(scene);
+    loadV = new video(obInterno);
     loadV.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 30, function(movieScreen){
         movieScreen.position.set(-100, 142, -5);
         movieScreen.rotation.x = -Math.PI / 2;
@@ -226,7 +226,7 @@ function initInterno() {
     }, false);
 
     pointLock.addElementLoading();
-    loadV2 = new video(scene);
+    loadV2 = new video(obInterno);
     loadV2.loadVideo("http://127.0.0.1:8080/esperimenti/kideatsdirt.ogv", 12, function(movieScreen){
         movieScreen.position.set(-42, 160, 80);
         movieScreen.rotation.x = - Math.PI / 16;

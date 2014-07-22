@@ -23,13 +23,15 @@
 <body>
     <div id="blocker">
         <div id="instructions">
-            <img src="http://127.0.0.1:8080/media/logo-new.png"/>
+            <div id="fraseCentrale">Esame di Linguaggi di Realt&agrave; Virtuale</div>
             <br/>
-            <div id="fraseCentrale">Esame di <br/> Linguaggi di Realt&agrave; Virtuale</div>
-            <br/>      
+            <img id="logo" src="http://127.0.0.1:8080/media/logo-new.png"/>
+            <div id="help">
+                <div id="clickInizio">click per iniziare</div><br/>
+                <span>(w,a,s,d e mouse per muoversi, click sinistro per interagire)</span>
+            </div>      
          </div>
     </div>
-      
     <script>
 
         var camera, scene, sceneEsterno, renderer;
@@ -52,7 +54,7 @@
         var obEsterno, obInterno;
         var interno = false;
 
-        var pointLock = new PointLock(blocker, instructions);
+        var pointLock = new PointLock(instructions, blocker);
 
         init();
         animate();
@@ -80,6 +82,7 @@
 
             renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setClearColor(0x81a1ca,1);
             renderer.shadowMapEnabled = true;
             document.body.appendChild( renderer.domElement );
 
