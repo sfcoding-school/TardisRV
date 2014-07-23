@@ -57,12 +57,81 @@
 				</section>
 
 				<section>
-					<h3>Console</h3>
-					<div id='console'></div>
-					<script src="js/console.js"></script>
+					<h3>Doctor Who</h3>	
+				</section>
+				
+				<section>
+					<h3>Tecnologie Utilizzate</h3>
+					<ul>
+						<li>WebGL con libreria Three.js</li>
+						<li>Blender</li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h3>Modelli Blender</h3>
+					</section>
+
+					<section>
+						<h3>Console</h3>
+						<div id='console'></div>
+						<script src="js/console.js"></script>
+
+					</section>
 
 				</section>
 
+				<section>
+					<section>
+						<h3>Funzionalità</h3>
+						<ul>
+							<li>Visuale in First Person</li>
+							<li>Interazione con gli oggetti</li>
+							<li>Evento "Dalek", script di movimento casuale</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Visuale in First Person </h3>
+						<ul>
+							<li>Pointer Lock api
+								<small>
+								attraverso queste api dei browser è possibile nascondere il puntatore del mouse e abilitare la FullScreen Mode.
+								</small>
+							</li>
+							<li>Libreria di Movimento
+								<small>
+								implementato il listener dei tasti w,a,s,d per muoversi e il mouse per la rotazione della visuale.
+								</small>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Interazione con gli oggetti</h3>
+						<ul>
+							<li>Libreria Click
+								<small>
+								implementazione del listener del click sinistro, e attraverso la posizione del mouse e i vettori ray caster(Three.ray) riconoscere l'oggetto cliccato
+								</small>
+							</li>
+							<li>Cambio Scena
+								<small>
+									sensore che riconosce la posizione all'interno della cabina e esegue il cambio scena
+								</small>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Evento "Dalek", script di movimento casuale</h3>
+						<p>
+							cliccando il tasto H, parte questo evento che consiste nel cambio di luce e nella
+						</p>					
+					</section>
+				</section>
+				
 				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
@@ -398,7 +467,7 @@ function linkify( selector ) {
 			});
 	       
 	        Reveal.addEventListener( 'slidechanged', function( event ) {
-			    if (event.indexh == 1){
+			    if (event.indexh == 3 && event.indexv == 1){
 			    	consoleStart();
 			    }else{
 			    	consoleClear();
