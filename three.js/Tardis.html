@@ -32,6 +32,10 @@
             </div>      
          </div>
     </div>
+    
+    <audio id="audioDalek" src="/media/Dalek.mp3"></audio>
+    <audio id="audioSound" src="/media/Sound.mp3"></audio>
+
     <script>
 
         var camera, scene, sceneEsterno, renderer;
@@ -91,6 +95,7 @@
             initEsterno();
             initInterno();
             scene.add(obEsterno);
+            //scene.add(obInterno);
         }
         
         function onWindowResize() {

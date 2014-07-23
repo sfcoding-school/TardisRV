@@ -6,7 +6,10 @@ video.prototype.loadVideo = function(source, radius, posizionamento, quale){
 	// create the video element
 	this.video = document.createElement( 'video' );
 	this.video.src = "/media/" + source;
+	this.video.loop = true;
+	this.video.volume = 0;
 	this.video.load(); // must call after setting/changing source
+	//this.video.defaultMuted = true;
 	this.video.play();
 
 
