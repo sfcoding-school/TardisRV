@@ -245,7 +245,7 @@ function initInterno() {
     ///VIDEO 
     pointLock.addElementLoading();
     loadV = new video(obInterno);
-    loadV.loadVideo("siglaNuova.ogv", 30, function(movieScreen){
+    loadV.loadVideo("siglaNuova1.ogv", 30, function(movieScreen){
         movieScreen.position.set(-100, 142, -5);
         movieScreen.rotation.x = -Math.PI / 2;
         movieScreen.rotation.y = -Math.PI / 8;

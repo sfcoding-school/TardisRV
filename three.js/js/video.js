@@ -6,13 +6,20 @@ video.prototype.loadVideo = function(source, radius, posizionamento, quale){
 	// create the video element
 	this.video = document.createElement( 'video' );
 	this.video.src = "/media/" + source;
-	this.video.loop = true;
+	//this.video.loop = true;
 	this.video.volume = 0;
-	this.video.load(); // must call after setting/changing source
-	//this.video.defaultMuted = true;
+	var tmp = this.video; 
+	this.video.onended = function(){
+		console.log('endVideo');
+        tmp.load();
+        tmp.play();
+	};
+	this.video.load();
 	this.video.play();
 
 
+/*
+	this.video.addEventListener('ended', this.restartVideo ,false*/
 	this.videoImage = document.createElement( 'canvas' );
 	this.videoImage.width = 320;
 	this.videoImage.height = 240;
@@ -40,14 +47,13 @@ video.prototype.loadVideo = function(source, radius, posizionamento, quale){
 
 	posizionamento(movieScreen);
 
-}
+};
 
 video.prototype.update = function(){
 	if ( this.video.readyState === this.video.HAVE_ENOUGH_DATA ) {
-	    this.videoImageContext.drawImage( this.video, 0, 0 );
-	    if ( this.videoTexture ) {
-	        this.videoTexture.needsUpdate = true;
-	        //console.log('videoUpdate');
-	    }
+		this.videoImageContext.drawImage( this.video, 0, 0, 320, 240 );
+		if ( this.videoTexture ) {
+			this.videoTexture.needsUpdate = true;
+		}
 	}
-}
+};

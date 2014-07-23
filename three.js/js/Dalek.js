@@ -19,16 +19,23 @@ Dalek.prototype.manage = function(){
 	var dalek = this.dalek;
 
     var audio1 = document.getElementById("audioSound");
-    //audio1.src = "/media/Sound.mp3";
-    audio1.loop = true;
     audio1.volume = 0.5;
+    audio1.onended = function(){
+        console.log('fine musica!');
+        audio1.load();
+        audio1.play();
+    };
     audio1.load();
     audio1.play();
+
     
     var audio2 = document.getElementById("audioDalek");
-    //audio2.src = "/media/Dalek.mp3";
     audio2.volume = 1;
-    audio2.loop = true;
+    audio2.onended = function(){
+        console.log('fine musica!');
+        audio2.load();
+        audio2.play();
+    };
     audio2.load();
 
 	var onKeyDown = function (event) {

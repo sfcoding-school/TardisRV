@@ -1,7 +1,7 @@
 var loadingFinish = false;
 var countLoading = 0;
 
-function PointLock(instructions, blocker ){
+function PointLock(instructions, blocker, animateId ){
     var img = document.createElement("img");
     img.setAttribute("src", "/media/loading-bar.gif");
     img.setAttribute("id", "loading");
@@ -25,11 +25,13 @@ function PointLock(instructions, blocker ){
             if ( loadingFinish && (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) ) {
 
                 controls.enabled = true;
+                //animate();
 
                 blocker.style.display = 'none';
 
             } else {
 
+                //cancelAnimationFrame( animateId );
                 controls.enabled = false;
                 /*
                 blocker.style.display = '-webkit-box';

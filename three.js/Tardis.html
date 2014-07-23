@@ -33,7 +33,7 @@
          </div>
     </div>
     
-    <audio id="audioDalek" src="/media/Dalek.mp3"></audio>
+    <audio id="audioDalek" src="/media/SiglaDalek.mp3"></audio>
     <audio id="audioSound" src="/media/Sound.mp3"></audio>
 
     <script>
@@ -54,15 +54,16 @@
         var line;
         var dalek;
         var dalekC;
+        var animationId;
 
         var obEsterno, obInterno;
         var interno = false;
 
         var pointLock = new PointLock(instructions, blocker);
-
         init();
         animate();
 
+        
         function init(){
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
             
@@ -81,8 +82,8 @@
             ray.ray.direction.set( 0, -1, 0 );
 
             //DEBUG-Axes
-            axes = buildAxes( 1000 );
-            scene.add( axes );
+            //axes = buildAxes( 1000 );
+            //scene.add( axes );
 
             renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setSize( window.innerWidth, window.innerHeight );
@@ -105,7 +106,7 @@
         }
 
         function animate() {
-            requestAnimationFrame( animate );
+            animationId = requestAnimationFrame( animate );
                     
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
