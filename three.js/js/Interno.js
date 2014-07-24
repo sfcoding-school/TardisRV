@@ -92,19 +92,6 @@ function initInterno() {
         console.log('muro');
     });
     //END WALL
-    
-    
-    //DALEK
-    pointLock.addElementLoading();
-    importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
-        controls.addMesh(object);
-        object.rotation.y += Math.PI/2;
-
-        dalekC = new Dalek(obInterno, object);
-        dalekC.manage();
-        pointLock.removeElementLoading();
-        console.log('dalek');
-    });
 
     pointLock.addElementLoading();
     importer.import('manopola.js', 50, [-27,145,-92], [0, -51.788, 0], function(geometry, object){
@@ -179,44 +166,86 @@ function initInterno() {
         pointLock.removeElementLoading();
         console.log('manopola');
     });
-
+    
     var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
     spotlight.position.set(0,500,0);
     spotlight.intensity = 0.8;
+    //directLight1.intensity = 0;
     spotlight.castShadow = true;
     obInterno.add(spotlight);
 
     var puntamelo = new THREE.Object3D();
     puntamelo.position.set(0,1000,0);
 
-    spotlight = new THREE.DirectionalLight( 0x8800ff);
-    spotlight.position.set(0,400,0);
-    spotlight.target = puntamelo;
-    spotlight.intensity = 1.5;
-    spotlight.castShadow = true;
-    obInterno.add(spotlight);
+    var directLight1 = new THREE.DirectionalLight( 0x8800ff);
+    directLight1.position.set(0,400,0);
+    directLight1.target = puntamelo;
+    directLight1.intensity = 1.5;
+    //directLight1.intensity = 0;
+    directLight1.castShadow = true;
+    obInterno.add(directLight1);
 
     puntamelo = new THREE.Object3D();
     puntamelo.position.set(0,250,0);
 
-    spotlight = new THREE.DirectionalLight( 0xffffff);
-    spotlight.position.set(400,300,400);
-    spotlight.target = puntamelo;
-    spotlight.intensity = 0.3;
-    spotlight.castShadow = true;
-    obInterno.add(spotlight);
+    var directLight2 = new THREE.DirectionalLight( 0xffffff);
+    directLight2.position.set(400,300,400);
+    directLight2.target = puntamelo;
+    directLight2.intensity = 0.3;
+    //directLight1.intensity = 0;
+    directLight2.castShadow = true;
+    obInterno.add(directLight2);
 
-    spotlight = new THREE.DirectionalLight( 0xffffff);
-    spotlight.position.set(-400, 300,-400);
-    spotlight.target = puntamelo;
-    spotlight.intensity = 0.3;
-    spotlight.castShadow = true;
-    obInterno.add(spotlight);   
+    var directLight3 = new THREE.DirectionalLight( 0xffffff);
+    directLight3.position.set(-400, 300,-400);
+    directLight3.target = puntamelo;
+    directLight3.intensity = 0.3;
+    //directLight1.intensity = 0;
+    directLight3.castShadow = true;
+    obInterno.add(directLight3);   
+
+    var directLight1D = new THREE.DirectionalLight( 0xff0000);
+    directLight1D.position.set(0,400,0);
+    directLight1D.target = puntamelo;
+    directLight1D.intensity = 0;
+    directLight1D.castShadow = false;
+    obInterno.add(directLight1D);
+
+    puntamelo = new THREE.Object3D();
+    puntamelo.position.set(0,250,0);
+
+    var directLight2D = new THREE.DirectionalLight( 0xff0000);
+    directLight2D.position.set(400,300,400);
+    directLight2D.target = puntamelo;
+    directLight2D.intensity = 0;
+    directLight2D.castShadow = false;
+    obInterno.add(directLight2D);
+
+    var directLight3D = new THREE.DirectionalLight( 0xff0000);
+    directLight3D.position.set(-400, 300,-400);
+    directLight3D.target = puntamelo;
+    directLight3D.intensity = 0;
+    directLight3D.castShadow = false;
+    obInterno.add(directLight3D);   
+
+    //DALEK
+    pointLock.addElementLoading();
+    importer.import('newdalekparadigm.js', 250, [-400,0,0], [0,0,0], function(geometry, object){
+        controls.addMesh(object);
+        object.rotation.y += Math.PI/2;
+
+        var updateInterval;
+        dalekC = new Dalek(obInterno, object,
+            new Array(spotlight, directLight1, directLight2, directLight3),
+            new Array(directLight1D, directLight2D, directLight3D));
+        pointLock.removeElementLoading();
+        console.log('dalek');
+    });
 
     ///VIDEO 
     pointLock.addElementLoading();
     loadV = new video(obInterno);
-    loadV.loadVideo("kideatsdirt.ogv", 30, function(movieScreen){
+    loadV.loadVideo("siglaNuova1.ogv", 30, function(movieScreen){
         movieScreen.position.set(-100, 142, -5);
         movieScreen.rotation.x = -Math.PI / 2;
         movieScreen.rotation.y = -Math.PI / 8;
@@ -227,7 +256,7 @@ function initInterno() {
 
     pointLock.addElementLoading();
     loadV2 = new video(obInterno);
-    loadV2.loadVideo("kideatsdirt.ogv", 12, function(movieScreen){
+    loadV2.loadVideo("siglaVecchia.ogv", 12, function(movieScreen){
         movieScreen.position.set(-42, 160, 80);
         movieScreen.rotation.x = - Math.PI / 16;
         movieScreen.rotation.y = - Math.PI / 8 - Math.PI / 16;

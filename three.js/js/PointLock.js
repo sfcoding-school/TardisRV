@@ -1,7 +1,7 @@
 var loadingFinish = false;
 var countLoading = 0;
 
-function PointLock(instructions, blocker ){
+function PointLock(instructions, blocker, animationControll ){
     var img = document.createElement("img");
     img.setAttribute("src", "/media/loading-bar.gif");
     img.setAttribute("id", "loading");
@@ -25,11 +25,15 @@ function PointLock(instructions, blocker ){
             if ( loadingFinish && (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) ) {
 
                 controls.enabled = true;
+                console.log('pointLock- false');
+                animationControll(false);
 
                 blocker.style.display = 'none';
 
             } else {
 
+                animationControll(true);
+                console.log('pointLock- true');
                 controls.enabled = false;
                 /*
                 blocker.style.display = '-webkit-box';
@@ -48,7 +52,7 @@ function PointLock(instructions, blocker ){
         };
 
         // Hook pointer lock state change events
-        document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+        //document.addEventListener( 'pointerlockchange', pointerlockchange, false );
         document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
         document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
 

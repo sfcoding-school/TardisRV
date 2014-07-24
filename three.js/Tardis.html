@@ -32,6 +32,10 @@
             </div>      
          </div>
     </div>
+    
+    <audio id="audioDalek" src="/media/SiglaDalek.mp3"></audio>
+    <audio id="audioSound" src="/media/Sound.mp3"></audio>
+
     <script>
 
         var camera, scene, sceneEsterno, renderer;
@@ -50,15 +54,26 @@
         var line;
         var dalek;
         var dalekC;
+        var startAnimate = true;
 
         var obEsterno, obInterno;
         var interno = false;
 
-        var pointLock = new PointLock(instructions, blocker);
-
+        var animationControll = function(stop){
+            if (stop){
+                startAnimate = false;
+                console.log('stop' );
+            }else{
+                startAnimate = true;
+                animate();
+                console.log('start');
+            }
+        };
+        var pointLock = new PointLock(instructions, blocker, animationControll);
         init();
         animate();
 
+        
         function init(){
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
             
@@ -77,8 +92,8 @@
             ray.ray.direction.set( 0, -1, 0 );
 
             //DEBUG-Axes
-            axes = buildAxes( 1000 );
-            scene.add( axes );
+            //axes = buildAxes( 1000 );
+            //scene.add( axes );
 
             renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setSize( window.innerWidth, window.innerHeight );
@@ -91,6 +106,7 @@
             initEsterno();
             initInterno();
             scene.add(obEsterno);
+            //scene.add(obInterno);
         }
         
         function onWindowResize() {
@@ -100,8 +116,10 @@
         }
 
         function animate() {
-            requestAnimationFrame( animate );
-                    
+            if (startAnimate){requestAnimationFrame( animate );}
+
+            console.log ('animate');
+
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
 

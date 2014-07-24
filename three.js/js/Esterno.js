@@ -8,6 +8,7 @@ function initEsterno(){
     obEsterno.position.z = -500;
 
     //floor
+    /*
     var floor = new THREE.ImageUtils.loadTexture( "/media/floor.jpg" );
     floor.wrapS = floor.wrapT = THREE.RepeatWrapping;
     floor.repeat.set( 4, 4);
@@ -19,9 +20,18 @@ function initEsterno(){
     plane.position.y = 0;
     //plane.receiveShadow = true;
     obEsterno.add(plane);                        
-
+    */
     //var geometry = new THREE.SphereGeometry( 2000, 40, 60 );
+    var importer = new blenderImporter(scene);
 
+    pointLock.addElementLoading();
+    importer.import('floor.js', 200, [0,-90,0], [0,0,0], function(geometry, object2){
+        controls.addMesh(object2);
+        obEsterno.add(object2);
+        object.castShadow = false;
+        object.receiveShadow = true;
+        pointLock.removeElementLoading();
+    });
     
     var geometry = new THREE.CylinderGeometry( 6000, 6000, 8000, 40, 5, true );
     geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
@@ -30,9 +40,9 @@ function initEsterno(){
         });
     mesh = new THREE.Mesh( geometry, material );
     mesh.position.y = 3600;
+    mesh.castShadow = false;
+    mesh.receiveShadow = false;
     obEsterno.add(mesh);
-
-    var importer = new blenderImporter(scene);
 
     pointLock.addElementLoading();
     importer.import('cabina.js', 80, [0,0,0], [0,Math.PI,0], function(geometry, object){
