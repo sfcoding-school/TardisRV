@@ -35,6 +35,19 @@ var consoleStartTardis = function(){
         directionalLight.position.set(3, 3, 3);
         scene.add(directionalLight);
 
+        directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(0, 3, 0);
+        scene.add(directionalLight);
+
+        directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(0, 0, 0);
+        scene.add(directionalLight);
+
+
+        directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(3, 3, 0);
+        scene.add(directionalLight);
+
         renderer = new THREE.WebGLRenderer({antialias: true, alpha: true });
         renderer.setSize( displayX, displayY );
         //renderer.setClearColor(0xcccccc,1);
