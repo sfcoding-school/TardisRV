@@ -1,6 +1,6 @@
-var vDalek = 0.01;
-var dio  = 0;
-var dio2 = 0;
+var vDalek = 0.005;
+var tempvar  = 0;
+var tempvar2 = 0;
 var inMovimento = false;
 var rDalek = 0;
 var primaVolta;
@@ -48,8 +48,8 @@ Dalek.prototype.manage = function(){
 					scene.add(dalek);
 					inMovimento = true;
 
-					dio  = Math.floor(Math.random() * 2*Math.PI);
-					dio2 = Math.floor(Math.random() * 350) + 200;
+					tempvar  = Math.floor(Math.random() * 2*Math.PI);
+					tempvar2 = Math.floor(Math.random() * 350) + 200;
 
                     audio1.pause();
                     audio2.play();
@@ -76,24 +76,24 @@ Dalek.prototype.manage = function(){
 
 Dalek.prototype.update = function(){
     if (inMovimento) {
-    	dio += vDalek;
+    	tempvar += vDalek;
 
-        if (dio2 >= rDalek){
-            dio2-=vDalek+1;
+        if (tempvar2 >= rDalek){
+            tempvar2-=vDalek+1;
         }
         else{
-            dio2+=vDalek+1;
+            tempvar2+=vDalek+1;
         }
 
-        this.dalek.position.x = Math.sin(dio) * dio2;
-        this.dalek.position.z = Math.cos(dio) * dio2;
+        this.dalek.position.x = Math.sin(tempvar) * tempvar2;
+        this.dalek.position.z = Math.cos(tempvar) * tempvar2;
         this.dalek.rotation.y += vDalek;
 
         if (!primaVolta){
             console.log('!primaVolta');
             this.lightD.forEach(function(entry) {
                 //entry.color.setRGB(1,0,0);
-                entry.intensity = Math.sin(dio*8);
+                entry.intensity = Math.sin(tempvar*6);
             });
         }else {
             console.log('primaVolta');
