@@ -54,12 +54,22 @@
         var line;
         var dalek;
         var dalekC;
-        var animationId;
+        var startAnimate = true;
 
         var obEsterno, obInterno;
         var interno = false;
 
-        var pointLock = new PointLock(instructions, blocker);
+        var animationControll = function(stop){
+            if (stop){
+                startAnimate = false;
+                console.log('stop' );
+            }else{
+                startAnimate = true;
+                animate();
+                console.log('start');
+            }
+        };
+        var pointLock = new PointLock(instructions, blocker, animationControll);
         init();
         animate();
 
@@ -106,8 +116,10 @@
         }
 
         function animate() {
-            animationId = requestAnimationFrame( animate );
-                    
+            if (startAnimate){requestAnimationFrame( animate );}
+
+            console.log ('animate');
+
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
 

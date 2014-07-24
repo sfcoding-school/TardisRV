@@ -1,0 +1,100 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background-color: #ffffff;
+    margin: 0;
+    overflow: hidden;
+    font-family: arial;
+}
+
+#blocker {
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.75);
+
+}
+
+#instructions {
+
+    width: 100%;
+    height: 100%;
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    box-orient: horizontal;
+
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+
+    color: #ffffff;
+    text-align: center;
+
+    display: table;
+
+    cursor: pointer;
+
+    /*background: rgba(225, 225, 225, .8)*/
+
+}
+
+#spanTitolo {
+    line-height:100px;
+    font-size:1000%;
+    padding-top: 25px;
+    padding-bottom: 50px;
+}
+
+#loading {
+    position: absolute;
+    top: 60%;
+    left: 43%;
+}
+    
+#fraseCentrale {
+    padding-top: 20px;
+    padding-bottom: 15px;
+    font-size:300%;
+    font-family: 'fantasy';
+    top: 80%;
+    margin-top: 2%;
+}
+
+#help {
+    font-family: 'arial';
+    margin-top: 10%;
+}
+
+#clickInizio{
+    font-size:180%;
+    -webkit-animation: pulsate 1.5s ease-out;
+    -webkit-animation-iteration-count: infinite; 
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.8, 0.8);}
+    50% {-webkit-transform: scale(1, 1);}
+    100% {-webkit-transform: scale(0.8, 0.8);}
+}
+
+#logo {
+    width: 460px; 
+    height: 160px;
+    position: relative;
+    margin-top: 5%;
+}
