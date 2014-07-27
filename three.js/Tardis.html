@@ -122,19 +122,19 @@
 
             ray.ray.origin.copy( controls.getObject().position );
             ray.ray.origin.y -= 10;
+            
+            var delta = Date.now() - time;
 
-            controls.update( Date.now() - time );
+            controls.update( delta );
 
-            renderer.render( scene, camera );
-
-            time = Date.now();
+            
 
             //console.log('x '+controls.getObject().position.x);
             //console.log('y '+controls.getObject().position.y);
             //console.log('z '+controls.getObject().position.z);
 
             if (interno)
-                animateInterno();
+                animateInterno( delta );
             else{
                 animateEsterno();
             }
@@ -150,6 +150,9 @@
                         interno = true;
                     }
             }
+            time = Date.now();
+
+            renderer.render( scene, camera );
         }
     </script>
 </body>

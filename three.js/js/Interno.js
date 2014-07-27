@@ -297,12 +297,12 @@ function initInterno() {
 }
 
 
-function animateInterno() {                    
+function animateInterno(delta) {                    
     manopolaAnimation1.update();
     manopolaAnimation2.update();
 
     loadV.update();
     loadV2.update();
 
-    dalekC.update();
+    dalekC.update(delta);
 }

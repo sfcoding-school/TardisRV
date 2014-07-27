@@ -1,4 +1,4 @@
-var vDalek = 0.005;
+var vDalek = 0.0005;
 var tempvar  = 0;
 var tempvar2 = 0;
 var inMovimento = false;
@@ -74,26 +74,27 @@ Dalek.prototype.manage = function(){
             }, 10000);
 };
 
-Dalek.prototype.update = function(){
+Dalek.prototype.update = function(delta){
     if (inMovimento) {
-    	tempvar += vDalek;
+        
+    	tempvar += vDalek*delta;
 
         if (tempvar2 >= rDalek){
-            tempvar2-=vDalek+1;
+            tempvar2-=vDalek*delta+1;
         }
         else{
-            tempvar2+=vDalek+1;
+            tempvar2+=vDalek*delta+1;
         }
 
         this.dalek.position.x = Math.sin(tempvar) * tempvar2;
         this.dalek.position.z = Math.cos(tempvar) * tempvar2;
-        this.dalek.rotation.y += vDalek;
+        this.dalek.rotation.y += vDalek*delta;
 
         if (!primaVolta){
             console.log('!primaVolta');
             this.lightD.forEach(function(entry) {
                 //entry.color.setRGB(1,0,0);
-                entry.intensity = Math.sin(tempvar*6);
+                entry.intensity = Math.sin(tempvar*10)+0.5;
             });
         }else {
             console.log('primaVolta');
