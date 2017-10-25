@@ -5,7 +5,7 @@ function video(scene){
 video.prototype.loadVideo = function(source, radius, posizionamento, quale){
 	// create the video element
 	this.video = document.createElement( 'video' );
-	this.video.src = "/media/" + source;
+	this.video.src = "media/" + source;
 	//this.video.loop = true;
 	this.video.volume = 0;
 	var tmp = this.video; 

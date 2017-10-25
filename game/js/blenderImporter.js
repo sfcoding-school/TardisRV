@@ -11,7 +11,7 @@ blenderImporter.prototype.import = function(fileName, scale, positionVector, rot
 	//var loader = new THREE.JSONLoader();
 	var object;
 	//console.log(loader);
-	this.loader.load("/modelli/"+fileName, function( geometry, materials) {
+	this.loader.load("modelli/"+fileName, function( geometry, materials) {
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX(rotationVector[0]) );
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationY(rotationVector[1]) );
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationZ(rotationVector[2]) );

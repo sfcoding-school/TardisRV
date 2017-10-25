@@ -9,7 +9,7 @@ function initEsterno(){
 
     //floor
     /*
-    var floor = new THREE.ImageUtils.loadTexture( "/media/floor.jpg" );
+    var floor = new THREE.ImageUtils.loadTexture( "media/floor.jpg" );
     floor.wrapS = floor.wrapT = THREE.RepeatWrapping;
     floor.repeat.set( 4, 4);
     var plane = new THREE.Mesh(
@@ -19,7 +19,7 @@ function initEsterno(){
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = 0;
     //plane.receiveShadow = true;
-    obEsterno.add(plane);                        
+    obEsterno.add(plane);
     */
     //var geometry = new THREE.SphereGeometry( 2000, 40, 60 );
     var importer = new blenderImporter(scene);
@@ -32,11 +32,11 @@ function initEsterno(){
         object.receiveShadow = true;
         pointLock.removeElementLoading();
     });
-    
+
     var geometry = new THREE.CylinderGeometry( 6000, 6000, 8000, 40, 5, true );
     geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
     var material = new THREE.MeshBasicMaterial( {
-        map: THREE.ImageUtils.loadTexture( "/media/london3.jpg" )
+        map: THREE.ImageUtils.loadTexture( "media/london3.jpg" )
         });
     mesh = new THREE.Mesh( geometry, material );
     mesh.position.y = 3600;
@@ -48,7 +48,7 @@ function initEsterno(){
     importer.import('cabina.js', 80, [0,0,0], [0,Math.PI,0], function(geometry, object){
         console.log('callBack');
         controls.addMesh(object);
-       
+
         obEsterno.add(object);
         pointLock.removeElementLoading();
     });
@@ -63,7 +63,7 @@ function initEsterno(){
                 obEsterno.remove(smoke);
             });
             controls.addMesh(object2);
-            clickable.addCMesh(new Array(object2, porteAnimation , true)); 
+            clickable.addCMesh(new Array(object2, porteAnimation , true));
             obEsterno.add(object2);
 
             clickable.addCMesh(new Array(object1, porteAnimation , true));
@@ -71,7 +71,7 @@ function initEsterno(){
         });
         console.log('callBack');
         controls.addMesh(object1);
-        
+
         obEsterno.add(object1);
     });
 
@@ -81,15 +81,15 @@ function initEsterno(){
         smokeParticles.vertices.push(particle);
     }
 
-    var smokeTexture = THREE.ImageUtils.loadTexture("/modelli/smoke.png");
+    var smokeTexture = THREE.ImageUtils.loadTexture("modelli/smoke.png");
     var smokeMaterial = new THREE.ParticleBasicMaterial({ map: smokeTexture, transparent: true, blending: THREE.AdditiveBlending, size: 50, color: 0x111111 });
 
     smoke = new THREE.ParticleSystem(smokeParticles, smokeMaterial);
     smoke.sortParticles = true;
     smoke.position.z = -100;
- 
-    
-    
+
+
+
 /*
     var spotlight = new THREE.SpotLight(0xffffff);//(0xffffff);
     spotlight.position.set(0,500,0);
