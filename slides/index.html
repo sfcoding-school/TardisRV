@@ -30,13 +30,13 @@
 				document.getElementsByTagName( 'head' )[0].appendChild( link );
 			}
 
-			
-			
+
+
 
 		</script>
 
-		<script src="/js/three.js"></script>
-		<script src="/js/blenderImporter.js"></script>
+		<script src="js/three.js"></script>
+		<script src="js/blenderImporter.js"></script>
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
@@ -57,12 +57,12 @@
 				</section>
 
 				<section>
-					<h3>Doctor Who</h3>	
+					<h3>Doctor Who</h3>
 					<p>Doctor Who è una serie televisiva britannica di fantascienza. <br/>
 					Ha per protagonista un Signore del Tempo, cioè un alieno viaggiatore del tempo, che si fa chiamare semplicemente Il Dottore. <br/>
 					Il Dottore esplora l'Universo a bordo del TARDIS. </p>
 				</section>
-				
+
 				<section>
 					<section>
 						<h3>Tecnologie Utilizzate</h3>
@@ -101,14 +101,14 @@
 
 					<section>
 						<h3>Tardis</h3>
-						<div id='tardis'></div>
+						<div id="tardis"></div>
 						<script src="js/tardis.js"></script>
 
 					</section>
 
 					<section>
 						<h3>Console</h3>
-						<div id='console'></div>
+						<div id="console"></div>
 						<script src="js/console.js"></script>
 
 					</section>
@@ -116,7 +116,7 @@
 					<section>
 						<h3>Dalek</h3>
 						<p>I Daleks sono i antagonisti più importanti e popolari della serie</p>
-						<div id='dalek'></div>
+						<div id="dalek"></div>
 						<script src="js/dalek.js"></script>
 					</section>
 				</section>
@@ -170,7 +170,7 @@
 							cliccando il tasto H, parte questo evento che consiste nel cambio di luci e compare il Dalek, in una posizione casuale. <br/>
 							Abbiamo quindi implementato il movimento del Dalek con uno script che sceglie, ogni due secondi, <br/>un raggio di una circonferenza, che sarà il percorso che seguirà.
 							</small>
-						</p>				
+						</p>
 					</section>
 				</section>
 
@@ -178,15 +178,15 @@
 					<h1>DEMO</h1>
 					<blockquote>
 						<p>
-							codice: https://github.com/sfcoding/TardisRV<br/>
-							demo: http://tardis.sfcoding.com/<br/>
+							codice: https://github.com/sfcoding-school/TardisRV<br/>
+							demo: http://sfcoding-school.github.io/TardisRV/game<br/>
 						</p>
 					</blockquote>
 					<br/><br/>
 				<p><small>
 					ulisse91 - lucarin91 <br/>
 					www.sfcoding.com
-				</small></p>				
+				</small></p>
 				</section>
 
 			</div>
@@ -231,7 +231,7 @@
 					{ src: 'plugin/math/math.js', async: true }
 				]
 			});
-	       
+
 	        Reveal.addEventListener( 'slidechanged', function( event ) {
 	        	if (event.indexh == 3 && event.indexv == 1){
 			    	consoleStartTardis();
@@ -244,10 +244,7 @@
 			    }
 			    // event.previousSlide, event.currentSlide, event.indexh, event.indexv
 			});
-    
+
     </script>
-
-		</script>
-
 	</body>
 </html>

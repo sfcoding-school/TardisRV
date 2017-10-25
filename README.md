@@ -1,4 +1,4 @@
 # TardisRV
-[game]()
+[game](http://sfcoding-school.github.io/TardisRV/game/)
 
-[slides]()
+[slides](http://sfcoding-school.github.io/TardisRV/slides/)
