@@ -10,10 +10,10 @@ function PointLock(instructions, blocker, animationControll ){
     var node = instructions.childNodes[3];
     instructions.insertBefore(img, node);
     //instructions.appendChild(img);
-    
+
     this.instructions = instructions;
     this.blocker = blocker;
-    
+
     var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
     if ( havePointerLock ) {
@@ -52,7 +52,7 @@ function PointLock(instructions, blocker, animationControll ){
         };
 
         // Hook pointer lock state change events
-        //document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+        document.addEventListener( 'pointerlockchange', pointerlockchange, false );
         document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
         document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
 
